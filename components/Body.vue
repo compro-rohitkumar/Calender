@@ -35,8 +35,8 @@ const props = defineProps({
         required: true,
     },
 });
-
-const datesOfMonth = ref(getDaysOfMonth());
+// create function to get days of month
+const datesOfMonth = ref();
 
 const events = computed(() =>
     props.event.map((item) => {
@@ -124,14 +124,18 @@ onMounted(() => {
 });
 
 const PrevMonth = () => {
-    datesOfMonth.value = getDaysOfPrevMonth("prev");
-    addEventindatesOfMonth();
-    giveHeightToEachRow();
+    // implement this
+
+    // datesOfMonth.value = getDaysOfPrevMonth("prev");
+    // addEventindatesOfMonth();
+    // giveHeightToEachRow();
 };
 const NextMonth = () => {
-    datesOfMonth.value = getDaysOfPrevMonth("next");
-    addEventindatesOfMonth();
-    giveHeight();
+    // implement this
+
+    // datesOfMonth.value = getDaysOfPrevMonth("next");
+    // addEventindatesOfMonth();
+    // giveHeight();
 };
 const CurrentMonth = computed(() => datesOfMonth.value[15]);
 
@@ -154,7 +158,7 @@ main {
 h1 {
     font-size: 1.5rem;
     margin-top: 1rem;
-    font: bold;
+    font-weight: bold;
 }
 
 .calender-body {
