@@ -25,16 +25,18 @@
 <script setup>
 const emit = defineEmits(["openModal"]);
 
-const props = defineProps({
-    event: {
-        type: Array,
-        required: true,
-    },
-    selectedEvents: {
-        type: Array,
-        required: true,
-    },
-});
+//props from app.vue
+
+// const props = defineProps({
+//     event: {
+//         type: Array,
+//         required: true,
+//     },
+//     selectedEvents: {
+//         type: Array,
+//         required: true,
+//     },
+// });
 // create function to get days of month
 const datesOfMonth = ref();
 
