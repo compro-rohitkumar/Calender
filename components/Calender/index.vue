@@ -1,8 +1,8 @@
 <template>
     <main>
         <h1>Calender</h1>
-        <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" />
-        <CalenderWeekDay />
+        <!-- <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" /> -->
+        <!-- <CalenderWeekDay /> -->
         <div class="calender-body">
             <div class="calender-item" v-for="item in datesOfMonth" :key="item.Date" :data-date="item.Date"
                 :style="{ height: `${item.height}px` }" @click="toggleModal(item.Date)">
@@ -38,7 +38,7 @@ const emit = defineEmits(["openModal"]);
 //     },
 // });
 // create function to get days of month
-const datesOfMonth = ref();
+const datesOfMonth = ref([]);
 
 const events = computed(() =>
     props.event.map((item) => {
@@ -52,54 +52,54 @@ const events = computed(() =>
     })
 );
 
-const giveHeightToEachRow = () => {
-    const div = document.createElement("div");
-    div.style.width = document.querySelector(".cal").offsetWidth + "px";
-    const p = document.createElement("p");
-    p.innerText = "1";
-    p.style.margin = "1px";
-    div.appendChild(p);
-    const range = document.createRange();
-    range.selectNodeContents(div);
+// const giveHeightToEachRow = () => {
+//     const div = document.createElement("div");
+//     div.style.width = document.querySelector(".cal").offsetWidth + "px";
+//     const p = document.createElement("p");
+//     p.innerText = "1";
+//     p.style.margin = "1px";
+//     div.appendChild(p);
+//     const range = document.createRange();
+//     range.selectNodeContents(div);
 
-    const fragment = range.cloneContents();
-    div.style.position = "absolute";
-    div.style.visibility = "hidden";
-    div.style.display = "block";
+//     const fragment = range.cloneContents();
+//     div.style.position = "absolute";
+//     div.style.visibility = "hidden";
+//     div.style.display = "block";
 
-    div.style.top = "-9999px";
-    div.appendChild(fragment);
-    document.body.appendChild(div);
+//     div.style.top = "-9999px";
+//     div.appendChild(fragment);
+//     document.body.appendChild(div);
 
-    let child = 1;
-    for (let i = 0; i < datesOfMonth.value.length; i += 7) {
-        let max_height = div.offsetHeight;
-        for (let j = i; j < i + 7; j++) {
-            let local_height = div.offsetHeight;
-            datesOfMonth.value[j].event.map((item) => {
-                child = child + 1;
-                const p1 = document.createElement("p");
-                p1.innerText = item.name;
-                p1.style.margin = "2px";
-                p1.classList.add("break-all")
-                div.appendChild(p1);
-                local_height = div.offsetHeight;
-            });
-            while (child !== 1) {
-                div.removeChild(div.lastChild);
-                child = child - 1;
-            }
-            if (local_height > max_height) {
-                max_height = local_height;
-            }
-        }
+//     let child = 1;
+//     for (let i = 0; i < datesOfMonth.value.length; i += 7) {
+//         let max_height = div.offsetHeight;
+//         for (let j = i; j < i + 7; j++) {
+//             let local_height = div.offsetHeight;
+//             datesOfMonth.value[j].event.map((item) => {
+//                 child = child + 1;
+//                 const p1 = document.createElement("p");
+//                 p1.innerText = item.name;
+//                 p1.style.margin = "2px";
+//                 p1.classList.add("break-all")
+//                 div.appendChild(p1);
+//                 local_height = div.offsetHeight;
+//             });
+//             while (child !== 1) {
+//                 div.removeChild(div.lastChild);
+//                 child = child - 1;
+//             }
+//             if (local_height > max_height) {
+//                 max_height = local_height;
+//             }
+//         }
 
-        for (let j = i; j < i + 7; j++) {
-            datesOfMonth.value[j].height = max_height;
-        }
-    }
-    document.body.removeChild(div);
-};
+//         for (let j = i; j < i + 7; j++) {
+//             datesOfMonth.value[j].height = max_height;
+//         }
+//     }
+//     document.body.removeChild(div);
+// };
 
 const LinkEventToDate = () => {
     datesOfMonth.value.forEach((item) => {
@@ -122,7 +122,7 @@ const LinkEventToDate = () => {
 
 onMounted(() => {
     LinkEventToDate();
-    giveHeightToEachRow();
+    // giveHeightToEachRow();
 });
 
 const PrevMonth = () => {
