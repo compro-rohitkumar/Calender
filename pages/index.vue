@@ -1,7 +1,7 @@
 <template>
     <CalenderModal :date="date" @closeModal="closeModal" v-if="modal" />
     <div class="flex gap-2">
-        <Calender @openModal="handleModal" @toggleModal="toggleModal" :event="userCreatedEvent" :key="trues"
+        <Calender @openModal="handleModal" @toggleModal="toggleModal" :Allevents="userCreatedEvent" :key="update_component"
             :selectedEvents="selectedEvents" />
         <!-- calenderRightbar -->
     </div>
@@ -11,7 +11,7 @@
 const modal = ref(false);
 const date = ref(null);
 const userCreatedEvent = ref([]);
-const trues = ref(false);
+const update_component = ref(false);
 const events = ref([
     {
         name: "Holiday",
@@ -42,6 +42,7 @@ const closeModal = (prop = null) => {
         modal.value = false;
         return;
     }
+    
     userCreatedEvent.value.push({
         what: prop.what,
         eventUser: prop.eventUser,
@@ -50,20 +51,21 @@ const closeModal = (prop = null) => {
         startDate: prop.startDate,
         endDate: prop.endDate,
     });
-    trues.value = !trues.value;
+    console.log(userCreatedEvent.value);
+    update_component.value = !update_component.value;
     modal.value = false;
 };
 
 const addEvent = (prop) => {
     selectedEvents.value.push(prop);
     console.log(selectedEvents.value);
-    trues.value = !trues.value;
+    update_component.value = !update_component.value;
 };
 const removeEvent = (prop) => {
     console.log(prop);
     selectedEvents.value = selectedEvents.value.filter((item) => item !== prop);
     console.log(selectedEvents.value);
-    trues.value = !trues.value;
+    update_component.value = !update_component.value;
 };
 
 </script>

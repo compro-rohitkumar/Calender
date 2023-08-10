@@ -29,7 +29,7 @@ const emit = defineEmits(["openModal"]);
 //props from app.vue
 
 const props = defineProps({
-    event: {
+    Allevents: {
         type: Array,
         required: true,
         default: () => [],
@@ -44,7 +44,7 @@ const props = defineProps({
 const datesOfMonth = ref(getDaysOfMonth());
 
 const events = computed(() =>
-    props.event.map((item) => {
+    props.Allevents.map((item) => {
         return {
             name: item.what,
             startDate: new Date(item.startDate),

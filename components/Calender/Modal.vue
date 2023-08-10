@@ -219,7 +219,8 @@ select {
 }
 
 .select {
-  height: 1.8rem;
+  height: 2rem;
+  padding:0;
   background-color: white;
 
 }
