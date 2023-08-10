@@ -5,10 +5,10 @@
         <!-- <CalenderWeekDay /> -->
         <div class="calender-body">
             <div class="calender-item" v-for="item in datesOfMonth" :key="item.Date" :data-date="item.Date"
-                :style="{ height: `${item.height}px` }" @click="toggleModal(item.Date)">
+                :class="{ 'selected': item.selected }" @click="toggleModal(item.Date)">
                 <div class="calender-item-events">
-                    <div class="calender-item-event-date" :class="{'selected':item.selected,}">
-                        <div class="text-center" :class="{ 'prevnextmonth': !item.current}">
+                    <div class="calender-item-event-date">
+                        <div class="text-center" :class="{ prevnextmonth: !item.current }">
                             {{ item.Date.getDate() }}
                         </div>
                     </div>
@@ -21,9 +21,9 @@
         </div>
     </main>
 </template>
-  
+
 <script setup>
-import {getDaysOfMonth, getDaysOfPrevMonth} from "../../util/getDate";
+import { getDaysOfMonth, getDaysOfPrevMonth } from "../../util/getDate";
 const emit = defineEmits(["openModal"]);
 
 //props from app.vue
@@ -41,7 +41,6 @@ const props = defineProps({
     },
 });
 
-
 const datesOfMonth = ref(getDaysOfMonth());
 
 const events = computed(() =>
@@ -55,55 +54,6 @@ const events = computed(() =>
         };
     })
 );
-
-// const giveHeightToEachRow = () => {
-//     const div = document.createElement("div");
-//     div.style.width = document.querySelector(".cal").offsetWidth + "px";
-//     const p = document.createElement("p");
-//     p.innerText = "1";
-//     p.style.margin = "1px";
-//     div.appendChild(p);
-//     const range = document.createRange();
-//     range.selectNodeContents(div);
-
-//     const fragment = range.cloneContents();
-//     div.style.position = "absolute";
-//     div.style.visibility = "hidden";
-//     div.style.display = "block";
-
-//     div.style.top = "-9999px";
-//     div.appendChild(fragment);
-//     document.body.appendChild(div);
-
-//     let child = 1;
-//     for (let i = 0; i < datesOfMonth.value.length; i += 7) {
-//         let max_height = div.offsetHeight;
-//         for (let j = i; j < i + 7; j++) {
-//             let local_height = div.offsetHeight;
-//             datesOfMonth.value[j].event.map((item) => {
-//                 child = child + 1;
-//                 const p1 = document.createElement("p");
-//                 p1.innerText = item.name;
-//                 p1.style.margin = "2px";
-//                 p1.classList.add("break-all")
-//                 div.appendChild(p1);
-//                 local_height = div.offsetHeight;
-//             });
-//             while (child !== 1) {
-//                 div.removeChild(div.lastChild);
-//                 child = child - 1;
-//             }
-//             if (local_height > max_height) {
-//                 max_height = local_height;
-//             }
-//         }
-
-//         for (let j = i; j < i + 7; j++) {
-//             datesOfMonth.value[j].height = max_height;
-//         }
-//     }
-//     document.body.removeChild(div);
-// };
 
 const LinkEventToDate = () => {
     datesOfMonth.value.forEach((item) => {
@@ -126,22 +76,15 @@ const LinkEventToDate = () => {
 
 onMounted(() => {
     LinkEventToDate();
-    // giveHeightToEachRow();
 });
 
 const PrevMonth = () => {
-    // implement this
-
     datesOfMonth.value = getDaysOfPrevMonth("prev");
-    // addEventindatesOfMonth();
-    // giveHeightToEachRow();
+    addEventindatesOfMonth();
 };
 const NextMonth = () => {
-    // implement this
-
     datesOfMonth.value = getDaysOfPrevMonth("next");
-    // addEventindatesOfMonth();
-    // giveHeight();
+    addEventindatesOfMonth();
 };
 const CurrentMonth = computed(() => datesOfMonth.value[15]);
 
@@ -149,17 +92,20 @@ const toggleModal = (date) => {
     emit("openModal", date);
 };
 </script>
-  
+
 <style scoped>
 .point {
     cursor: pointer;
 }
-.selected{
-    border:  solid rgb(8, 249, 48);
+
+.selected {
+    background-color: #f8e8e8;
 }
-.prevnextmonth{
-    color: rgb(229, 218, 218)
+
+.prevnextmonth {
+    color: rgb(229, 218, 218);
 }
+
 main {
     display: flex;
     flex-direction: column;
@@ -177,15 +123,16 @@ h1 {
 .calender-body {
     width: 100%;
     display: grid;
+
     grid-template-columns: repeat(7, 1fr);
-    border: 1px solid rgb(176, 172, 172)
+    border: 1px solid rgb(176, 172, 172,0.5);
 }
 
 .calender-item {
     text-align: center;
     border: 1px solid rgb(176, 172, 172);
     grid-column: span 1;
-
+    min-height: 40px;
 }
 
 .calender-item-events {
@@ -197,13 +144,15 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .calender-item-event {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1px;
+    margin: 5px;
     border-radius: 5px;
     /* word-break: break-all; */
 }
@@ -217,4 +166,3 @@ h1 {
     word-break: break-all;
 }
 </style>
-  
