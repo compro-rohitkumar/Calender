@@ -4,7 +4,7 @@
         <!-- <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" /> -->
         <!-- <CalenderWeekDay /> -->
         <div class="calender-container">
-            <div class="calender-day" v-for="item inCalenderDays" :key="item.Date" :data-date="item.Date"
+            <div class="calender-day" v-for="item in CalenderDays" :key="item.Date" :data-date="item.Date"
                 :style="{ height: `${item.height}px` }" @click="toggleModal(item.Date)">
                 <div class="calender-day-events">
                     <div class="calender-date" :class="{'selected':item.selected,}">
