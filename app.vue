@@ -1,7 +1,5 @@
 <template>
-  <main>
-    <div>
-      Hello
-    </div>
-  </main>
+  <div>
+    <Calender />
+  </div>
 </template>
