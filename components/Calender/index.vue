@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import { getDaysOfMonth, getDaysOfPrevMonth } from "../../util/getDate";
 const emit = defineEmits(["openModal"]);
 
 //props from app.vue
@@ -109,6 +108,7 @@ const toggleModal = (date) => {
 main {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 h1 {
