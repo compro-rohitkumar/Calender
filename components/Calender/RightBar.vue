@@ -30,8 +30,7 @@ const handleClick = (prop) => {
 
 <style scoped>
 .RightBar-container {
-    margin-top: 6rem;
-    margin-left: 0.5rem;
+    margin-left: 2rem;
     width: 20%;
 }
 

@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-row m-1 items-center">
-      <input type="checkbox" class="w-4 h-4" @click="handleClick()" checked />
-      <img :src="image" alt="image" class="w-6 h-6" />
-      <p class="text-sm font-medium text-gray-500 ml-2">{{ name }}</p>
+    <div class="event">
+      <input type="checkbox" @click="handleClick()" checked />
+      <img :src="image" alt="image"  />
+      <p >{{ name }}</p>
     </div>
   </template>
   
@@ -37,20 +37,21 @@
 
 
 <style scoped>
-    div{
+    .event{
         display: flex;
+        flex-direction: row !important;
         align-items: center;
         margin:4px;
     }
-    input{
+    .event input{
         width: 16px;
         height: 16px;
     }
-    image{
-        width: 16px;
-        height: 16px;
+    .event image{
+        width: 16px !important;
+        height: 16px !important;
     }
-    p{
+    .event p{
         font-size: 12px;
         font-weight: 500;
         color: #374151;

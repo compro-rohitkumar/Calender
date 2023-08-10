@@ -25,17 +25,17 @@ const update_component = ref(false);
 const events = ref([
   {
     name: "Holiday",
-    image: "../assets/images/Holiday.png",
+    image: "/images/Holiday.png",
     id: 1,
   },
   {
     name: "Birthday",
-    image: "../assets/images/BirthDay.png",
+    image: "/images/BirthDay.png",
     id: 2,
   },
   {
     name: "Leave",
-    image: "../assets/images/leave.png",
+    image: "/images/leave.png",
     id: 3,
   },
 ]);
