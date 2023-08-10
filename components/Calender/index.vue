@@ -23,22 +23,26 @@
 </template>
   
 <script setup>
+import {getDaysOfMonth, getDaysOfPrevMonth} from "../../util/getDate";
 const emit = defineEmits(["openModal"]);
 
 //props from app.vue
 
-// const props = defineProps({
-//     event: {
-//         type: Array,
-//         required: true,
-//     },
-//     selectedEvents: {
-//         type: Array,
-//         required: true,
-//     },
-// });
-// create function to get days of month
-const datesOfMonth = ref([]);
+const props = defineProps({
+    event: {
+        type: Array,
+        required: true,
+        default: () => [],
+    },
+    selectedEvents: {
+        type: Array,
+        required: true,
+        default: () => [],
+    },
+});
+
+
+const datesOfMonth = ref(getDaysOfMonth());
 
 const events = computed(() =>
     props.event.map((item) => {
@@ -128,14 +132,14 @@ onMounted(() => {
 const PrevMonth = () => {
     // implement this
 
-    // datesOfMonth.value = getDaysOfPrevMonth("prev");
+    datesOfMonth.value = getDaysOfPrevMonth("prev");
     // addEventindatesOfMonth();
     // giveHeightToEachRow();
 };
 const NextMonth = () => {
     // implement this
 
-    // datesOfMonth.value = getDaysOfPrevMonth("next");
+    datesOfMonth.value = getDaysOfPrevMonth("next");
     // addEventindatesOfMonth();
     // giveHeight();
 };
@@ -153,17 +157,20 @@ const toggleModal = (date) => {
 
 main {
     display: flex;
-    flex-grow: 1;
-    margin-left: 0.5rem;
+    flex-direction: column;
 }
 
 h1 {
     font-size: 1.5rem;
     margin-top: 1rem;
     font-weight: bold;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
 }
 
 .calender-body {
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     border: 1px solid rgb(176, 172, 172)
