@@ -22,6 +22,9 @@ export function getDaysOfMonth() {
   const currentDate = new Date(firstDayOfMonth);
   while (currentDate <= lastDayOfMonth) {
     days.push({current:true,Date:new Date(currentDate)});
+    if(currentDate===today){
+        days[days.length-1].today=true;
+    }
     currentDate.setDate(currentDate.getDate() + 1);
   }
   no_of_day=lastDayOfMonth.getDay();
@@ -45,15 +48,7 @@ export function getDaysOfPrevMonth(data) {
     return month;
 }
 
-export function getDaysofWeek(){
-    const currentDay = today.getDay();
-    const days = [];
-    const currentDate = new Date(today);
-    for(let i=0;i<7;i++){
-        days.push({current:currentDay===i,Date:new Date(currentDate)});
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-}
+
 
 export function getDaysofPrevWeek(data){
     const currentDay = today.getDay();
@@ -62,16 +57,16 @@ export function getDaysofPrevWeek(data){
     }else{
         today.setDate(today.getDate()+7);
     }
-    const days = [];
-    const currentDate = new Date(today);
-    for(let i=0;i<7;i++){
-        days.push({current:currentDay===i,Date:new Date(currentDate)});
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return days;
+    return getDaysOfMonth();
 }
 
 export function getMonthNameAndYear(month,year){
   const months=["January","February","March","April","May","June","July","August","September","October","November","December"]
   return `${months[month]} ${year}`;
+}
+
+export function getToDay(){
+    const date = new Date();
+    today = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+    return getDaysOfMonth();
 }
