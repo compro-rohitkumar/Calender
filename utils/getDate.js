@@ -1,5 +1,4 @@
-let today,
-  count = 0;
+let today,count = 0;
 export function getDaysOfMonth() {
   if (count == 0) {
     today = new Date();
@@ -42,47 +41,47 @@ export function getDaysOfMonth() {
   return days;
 }
 
-export function getDaysOfPrevMonth(data) {
-  const currentMonth = today.getMonth();
-  if (data === "prev") {
-    today.setMonth(currentMonth - 1);
-  } else {
-    today.setMonth(currentMonth + 1);
-  }
-  const month = getDaysOfMonth();
-  return month;
-}
+// export function getDaysOfPrevMonth(data) {
+//   const currentMonth = today.getMonth();
+//   if (data === "prev") {
+//     today.setMonth(currentMonth - 1);
+//   } else {
+//     today.setMonth(currentMonth + 1);
+//   }
+//   const month = getDaysOfMonth();
+//   return month;
+// }
 
-export function getDaysofPrevWeek(data) {
-  const currentDay = today.getDay();
-  if (data === "prev") {
-    today.setDate(today.getDate() - 7);
-  } else {
-    today.setDate(today.getDate() + 7);
-  }
-  return getDaysOfMonth();
-}
+// export function getDaysofPrevWeek(data) {
+//   const currentDay = today.getDay();
+//   if (data === "prev") {
+//     today.setDate(today.getDate() - 7);
+//   } else {
+//     today.setDate(today.getDate() + 7);
+//   }
+//   return getDaysOfMonth();
+// }
 
-export function getMonthNameAndYear(month, year) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  return `${months[month]} ${year}`;
-}
+// export function getMonthNameAndYear(month, year) {
+//   const months = [
+//     "January",
+//     "February",
+//     "March",
+//     "April",
+//     "May",
+//     "June",
+//     "July",
+//     "August",
+//     "September",
+//     "October",
+//     "November",
+//     "December",
+//   ];
+//   return `${months[month]} ${year}`;
+// }
 
-export function getToDay() {
-  const date = new Date();
-  today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  return getDaysOfMonth();
-}
+// export function getToDay() {
+//   const date = new Date();
+//   today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+//   return getDaysOfMonth();
+// }
