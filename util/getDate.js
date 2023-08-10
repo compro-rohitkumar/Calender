@@ -22,8 +22,11 @@ export function getDaysOfMonth() {
   const currentDate = new Date(firstDayOfMonth);
   while (currentDate <= lastDayOfMonth) {
     days.push({current:true,Date:new Date(currentDate)});
-    if(currentDate===today){
-        days[days.length-1].today=true;
+    if(currentDate.getDate()===today.getDate() && currentDate.getMonth()===today.getMonth() && currentDate.getFullYear()===today.getFullYear()){
+        console.log(today);
+        days[days.length-1].selected=true;
+    }else{
+        days[days.length-1].selected=false;
     }
     currentDate.setDate(currentDate.getDate() + 1);
   }

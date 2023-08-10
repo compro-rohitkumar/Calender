@@ -7,8 +7,8 @@
             <div class="calender-item" v-for="item in datesOfMonth" :key="item.Date" :data-date="item.Date"
                 :style="{ height: `${item.height}px` }" @click="toggleModal(item.Date)">
                 <div class="calender-item-events">
-                    <div class="calender-item-event-date">
-                        <div class="text-center" :class="{ 'text-gray-200': !item.current }">
+                    <div class="calender-item-event-date" :class="{'selected':item.selected,}">
+                        <div class="text-center" :class="{ 'prevnextmonth': !item.current}">
                             {{ item.Date.getDate() }}
                         </div>
                     </div>
@@ -154,7 +154,12 @@ const toggleModal = (date) => {
 .point {
     cursor: pointer;
 }
-
+.selected{
+    border:  solid rgb(8, 249, 48);
+}
+.prevnextmonth{
+    color: rgb(229, 218, 218)
+}
 main {
     display: flex;
     flex-direction: column;
