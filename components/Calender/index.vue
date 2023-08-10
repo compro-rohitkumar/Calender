@@ -4,7 +4,7 @@
         <!-- <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" /> -->
         <!-- <CalenderWeekDay /> -->
         <div class="calender-container">
-            <div class="calender-day" v-for="item in CalenderDays" :key="item.Date" :data-date="item.Date"
+            <div class="calender-day" v-for="item in CalenderDate" :key="item.Date" :data-date="item.Date"
                 :style="{ height: `${item.height}px` }" @click="toggleModal(item.Date)">
                 <div class="calender-day-events">
                     <div class="calender-date" :class="{'selected':item.selected,}">
@@ -40,7 +40,7 @@ const props = defineProps({
 });
 
 
-const CalenderDays = ref(getDaysOfMonth());
+const CalenderDate = ref(getDaysOfMonth());
 
 const events = computed(() =>
     props.event.map((item) => {
@@ -56,7 +56,7 @@ const events = computed(() =>
 
 
 const LinkEventToDate = () => {
-   CalenderDays.value.forEach((item) => {
+   CalenderDate.value.forEach((item) => {
         item.event = [];
         events.value.forEach((event) => {
             const date = new Date(event.startDate);
@@ -82,18 +82,18 @@ onMounted(() => {
 // const PrevMonth = () => {
 //     // implement this
 
-//    CalenderDays.value = getDaysOfPrevMonth("prev");
+//    CalenderDate.value = getDaysOfPrevMonth("prev");
 //     // addEventindatesOfMonth();
 //     // giveHeightToEachRow();
 // };
 // const NextMonth = () => {
 //     // implement this
 
-//    CalenderDays.value = getDaysOfPrevMonth("next");
+//    CalenderDate.value = getDaysOfPrevMonth("next");
 //     // addEventindatesOfMonth();
 //     // giveHeight();
 // };
-const CurrentMonth = computed(() =>CalenderDays.value[15]);
+const CurrentMonth = computed(() =>CalenderDate.value[15]);
 
 const toggleModal = (date) => {
     emit("openModal", date);
