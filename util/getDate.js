@@ -16,14 +16,12 @@ export function getDaysOfMonth() {
   for(let i=0;i<no_of_day;i++){
     days.unshift({current:false,Date:new Date(prevMonth)});
     prevMonth.setDate(prevMonth.getDate() - 1);
-    // dt.setDate(dt.getDate() );
   }
   
   const currentDate = new Date(firstDayOfMonth);
   while (currentDate <= lastDayOfMonth) {
     days.push({current:true,Date:new Date(currentDate)});
     if(currentDate.getDate()===today.getDate() && currentDate.getMonth()===today.getMonth() && currentDate.getFullYear()===today.getFullYear()){
-        console.log(today);
         days[days.length-1].selected=true;
     }else{
         days[days.length-1].selected=false;
