@@ -6,7 +6,6 @@
         <div class="calender-container">
             <div class="calender-day" v-for="calenderDay in calenderDay" :key="calenderDay.Date" :data-date="calenderDay.Date"
                 :style="{ height: `${calenderDay.height}px` }" @click="toggleModal(calenderDay.Date)">
-                <div class="calender-day-events">
                     <div class="calender-date" :class="{'selected':calenderDay.selected,}">
                         <p class="text-center" :class="{ 'prevnextmonth': !calenderDay.current}">
                             {{ calenderDay.Date.getDate() }}
@@ -16,7 +15,6 @@
                         :style="{ backgroundColor: event.color }">
                         <p>{{ event.name }}</p>
                     </div>
-                </div>
             </div>
         </div>
     </main>
