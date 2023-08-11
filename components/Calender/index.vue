@@ -90,7 +90,7 @@ onMounted(() => {
 //     // addEventindatesOfMonth();
 //     // giveHeight();
 // };
-const CurrentMonth = computed(() =>calenderDay.value[15]);
+const CurrentMonth = computed(() =>calenderDays.value[15]);
 
 const toggleModal = (date) => {
     emit("openModal", date);
