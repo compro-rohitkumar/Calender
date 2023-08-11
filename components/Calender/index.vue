@@ -4,7 +4,7 @@
         <!-- <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" /> -->
         <!-- <CalenderWeekDay /> -->
         <div class="calender-container">
-            <div class="calender-day" v-for="calenderDay in calenderDay" :key="calenderDay.Date" :data-date="calenderDay.Date"
+            <div class="calender-day" v-for="calenderDay in calenderDays" :key="calenderDay.Date" :data-date="calenderDay.Date"
                 :style="{ height: `${calenderDay.height}px` }" @click="toggleModal(calenderDay.Date)">
                     <div class="calender-date" :class="{'selected':calenderDay.selected,}">
                         <p class="text-center" :class="{ 'prevnextmonth': !calenderDay.current}">
@@ -38,7 +38,7 @@ const props = defineProps({
 });
 
 const currentDate = ref(new Date());
-const calenderDay = ref(getCalenderDays("month","current",currentDate.value));
+const calenderDays = ref(getCalenderDays("month","current",currentDate.value));
 
 const events = computed(() =>
     props.event.map((item) => {
@@ -54,7 +54,7 @@ const events = computed(() =>
 
 
 const linkEventToDate = () => {
-   calenderDay.value.forEach((item) => {
+   calenderDays.value.forEach((item) => {
         item.event = [];
         events.value.forEach((event) => {
             const date = new Date(event.startDate);
