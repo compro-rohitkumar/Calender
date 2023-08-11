@@ -35,8 +35,8 @@ export function getCalenderDays(view,calnderNavigation,currentDate) {
     calenderDays.push({ current: true, Date: new Date(firstDayOfMonth) });
     firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
   }
-  totalPrevMonthDays = lastDayOfMonth.getDay();
-  for (let i = 0; i < 7 - totalPrevMonthDays - 1; i++) {
+  let totalNextMonthDays = lastDayOfMonth.getDay();
+  for (let i = 0; i < 7 - totalNextMonthDays - 1; i++) {
     calenderDays.push({ current: false, Date: new Date(firstDayOfMonth) });
     firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
   }
