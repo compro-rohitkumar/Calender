@@ -1,5 +1,5 @@
 <template>
-  <CalenderModal :date="date" @closeModal="closeModal" v-if="modal" />
+  <ModalAddNewEvent :date="date" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
     <Calender
       @openModal="handleModal"
@@ -9,11 +9,7 @@
       :selectedEvents="selectedEvents"
     />
     <!-- calenderRightbar -->
-    <CalenderRightBar
-      :events="events"
-      @include="addEvent"
-      @exclude="removeEvent"
-    />
+    <EventNavBar :events="events" @include="addEvent" @exclude="removeEvent" />
   </div>
 </template>
 
