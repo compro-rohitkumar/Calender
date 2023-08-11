@@ -39,11 +39,11 @@ const emit = defineEmits(["openModal"]);
 //props from app.vue
 
 const props = defineProps({
-  Allevents: {
+  all_events: {
     type: Array,
     default: () => [],
   },
-  selectedEvents: {
+  selected_events: {
     type: Array,
     default: () => [],
   },
@@ -55,7 +55,7 @@ const calenderDays = ref(
 );
 
 const events = computed(() =>
-  props.Allevents.map((item) => {
+  props.all_events.map((item) => {
     return {
       name: item.what,
       startDate: new Date(item.startDate),
@@ -77,7 +77,7 @@ const linkEventToDate = () => {
       if (
         item.Date >= date &&
         item.Date <= endDate &&
-        props.selectedEvents.includes(event.id)
+        props.selected_events.includes(event.id)
       ) {
         item.event.push(event);
       }
@@ -104,7 +104,7 @@ onMounted(() => {
 //     // addEventindatesOfMonth();
 //     // giveHeight();
 // };
-const CurrentMonth = computed(() => calenderDays.value[15]);
+const currentMonth = computed(() => calenderDays.value[15]);
 
 const toggleModal = (date) => {
   emit("openModal", date);

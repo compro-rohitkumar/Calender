@@ -1,8 +1,8 @@
 <template>
-  <div class="RightBar-container">
+  <div class="RightBar_container">
     <p>Compro Calender</p>
     <div>
-      <EventField
+      <event
         v-for="item in props.events"
         :key="item.id"
         :name="item.name"
@@ -15,7 +15,7 @@
 </template>
   
 <script setup>
-const emit = defineEmits(["include", "exclude"]);
+const emit = defineEmits(["addEvent", "removeEvent"]);
 const props = defineProps({
   events: {
     type: Array,
@@ -25,28 +25,25 @@ const props = defineProps({
 
 const handleClick = (prop) => {
   if (prop.checked) {
-    emit("include", prop.id);
+    emit("addEvent", prop.id);
   } else {
-    // console.log(prop.id)
-    emit("exclude", prop.id);
+    emit("removeEvent", prop.id);
   }
 };
 </script>
-
-
 <style scoped>
-.RightBar-container {
+.RightBar_container {
   margin-left: 2rem;
   width: 20%;
 }
 
-.RightBar-container p {
+.RightBar_container p {
   font-size: 1.5rem;
   font-weight: 600;
   color: #374151;
 }
 
-.RightBar-container div {
+.RightBar_container div {
   display: flex;
   flex-direction: column;
 }

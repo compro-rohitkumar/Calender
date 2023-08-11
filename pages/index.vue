@@ -4,12 +4,12 @@
     <Calender
       @openModal="handleModal"
       @toggleModal="toggleModal"
-      :Allevents="userCreatedEvent"
+      :all_events="userCreatedEvent"
       :key="update_component"
-      :selectedEvents="selectedEvents"
+      :selected_events="selected_events"
     />
     <!-- calenderRightbar -->
-    <EventNavBar :events="events" @include="addEvent" @exclude="removeEvent" />
+    <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
   </div>
 </template>
 
@@ -35,7 +35,7 @@ const events = ref([
     id: 3,
   },
 ]);
-const selectedEvents = ref(events.value.map((item) => item.id));
+const selected_events = ref(events.value.map((item) => item.id));
 
 const handleModal = (dateOfClick) => {
   date.value = dateOfClick;
@@ -63,14 +63,12 @@ const closeModal = (prop = null) => {
 };
 
 const addEvent = (prop) => {
-  selectedEvents.value.push(prop);
-  console.log(selectedEvents.value);
+  selected_events.value.push(prop);
+  console.log(selected_events.value);
   update_component.value = !update_component.value;
 };
-const removeEvent = (prop) => {
-  console.log(prop);
-  selectedEvents.value = selectedEvents.value.filter((item) => item !== prop);
-  console.log(selectedEvents.value);
+const removeEvent = (eventID) => {
+  selected_events.value = selected_events.value.filter((item) => item !== eventID);
   update_component.value = !update_component.value;
 };
 </script>
