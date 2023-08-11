@@ -3,20 +3,18 @@
         <h1>Calender</h1>
         <!-- <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" /> -->
         <!-- <CalenderWeekDay /> -->
-        <div class="calender-body">
-            <div class="calender-item" v-for="item in datesOfMonth" :key="item.Date" :data-date="item.Date"
-                :class="{ 'selected': item.selected }" @click="toggleModal(item.Date)">
-                <div class="calender-item-events">
-                    <div class="calender-item-event-date">
-                        <div class="text-center" :class="{ prevnextmonth: !item.current }">
-                            {{ item.Date.getDate() }}
-                        </div>
+        <div class="calender-container">
+            <div class="calender-day" v-for="calenderDay in calenderDays" :key="calenderDay.Date" :data-date="calenderDay.Date"
+                :style="{ height: `${calenderDay.height}px` }" @click="toggleModal(calenderDay.Date)">
+                    <div class="calender-date" :class="{'selected':calenderDay.selected,}">
+                        <p class="text-center" :class="{ 'prevnextmonth': !calenderDay.current}">
+                            {{ calenderDay.Date.getDate() }}
+                        </p>
                     </div>
-                    <div v-for="event in item.event" :key="event.name" class="calender-item-event"
+                    <div v-for="event in calenderDay.event" :key="event.name" class="calender-event"
                         :style="{ backgroundColor: event.color }">
                         <p>{{ event.name }}</p>
                     </div>
-                </div>
             </div>
         </div>
     </main>
@@ -30,17 +28,16 @@ const emit = defineEmits(["openModal"]);
 const props = defineProps({
     Allevents: {
         type: Array,
-        required: true,
         default: () => [],
     },
     selectedEvents: {
         type: Array,
-        required: true,
         default: () => [],
     },
 });
 
-const datesOfMonth = ref(getDaysOfMonth());
+const currentDate = ref(new Date());
+const calenderDays = ref(getCalenderDays("month","current",currentDate.value));
 
 const events = computed(() =>
     props.Allevents.map((item) => {
@@ -54,8 +51,9 @@ const events = computed(() =>
     })
 );
 
-const LinkEventToDate = () => {
-    datesOfMonth.value.forEach((item) => {
+
+const linkEventToDate = () => {
+   calenderDays.value.forEach((item) => {
         item.event = [];
         events.value.forEach((event) => {
             const date = new Date(event.startDate);
@@ -74,18 +72,25 @@ const LinkEventToDate = () => {
 };
 
 onMounted(() => {
-    LinkEventToDate();
+    linkEventToDate();
+    // giveHeightToEachRow();
 });
 
-const PrevMonth = () => {
-    datesOfMonth.value = getDaysOfPrevMonth("prev");
-    addEventindatesOfMonth();
-};
-const NextMonth = () => {
-    datesOfMonth.value = getDaysOfPrevMonth("next");
-    addEventindatesOfMonth();
-};
-const CurrentMonth = computed(() => datesOfMonth.value[15]);
+// const PrevMonth = () => {
+//     // implement this
+
+//    calenderDay.value = getDaysOfPrevMonth("prev");
+//     // addEventindatesOfMonth();
+//     // giveHeightToEachRow();
+// };
+// const NextMonth = () => {
+//     // implement this
+
+//    calenderDay.value = getDaysOfPrevMonth("next");
+//     // addEventindatesOfMonth();
+//     // giveHeight();
+// };
+const CurrentMonth = computed(() =>calenderDay.value[15]);
 
 const toggleModal = (date) => {
     emit("openModal", date);
@@ -120,7 +125,7 @@ h1 {
     text-align: center;
 }
 
-.calender-body {
+.calender-container {
     width: 100%;
     display: grid;
 
@@ -128,19 +133,19 @@ h1 {
     border: 1px solid rgb(176, 172, 172,0.5);
 }
 
-.calender-item {
+.calender-day {
     text-align: center;
     border: 1px solid rgb(176, 172, 172);
     grid-column: span 1;
     min-height: 40px;
 }
 
-.calender-item-events {
+.calender-day-events {
     display: flex;
     flex-direction: column;
 }
 
-.calender-item-event-date {
+.calender-date {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,7 +153,7 @@ h1 {
     margin-bottom: 4px;
 }
 
-.calender-item-event {
+.calender-event {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -157,7 +162,7 @@ h1 {
     /* word-break: break-all; */
 }
 
-.calender-item-event p {
+.calender-event p {
     margin: 0;
     padding: 0;
     font-size: 0.8rem;
