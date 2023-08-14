@@ -21,10 +21,10 @@ export function getCalenderDays(view, calenderNavigation, currentDate) {
 
 
   if(view === "month"){
-    currentDate = handleMonthNavigation(currentDate, calenderNavigation);
+    currentDate = new Date(handleMonthNavigation(currentDate, calenderNavigation));
   }
   else if(view === "week"){
-    currentDate = handleWeekNavigation(currentDate, calenderNavigation);
+    currentDate = new Date(handleWeekNavigation(currentDate, calenderNavigation));
   }
 
   const currentMonth = currentDate.getMonth();

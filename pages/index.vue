@@ -1,5 +1,5 @@
 <template>
-  <ModalAddNewEvent :date="date" @closeModal="closeModal" v-if="modal" />
+  <ModalAddNewEvent :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
     <Calender
       @openModal="toggleModal"
@@ -21,6 +21,48 @@ const modal = ref(false);
 const date = ref(null);
 const userCreatedEvent = ref([]);
 const update_component = ref(false);
+const users = ref([
+  {
+    name: "Nirmal Kumar",
+    id: 1,
+  },
+  {
+    name: "Manpreet Singh",
+    id: 2,
+  },
+  {
+    name: "Parveen Kumar",
+    id: 3,
+  },
+  {
+    name: "Manoj saini",
+    id: 4,
+  },
+  {
+    name: "Ashmeet Kaur",
+    id: 5,
+  },
+  {
+    name: "Susanto Mondal",
+    id: 6,
+  },
+  {
+    name: "Rohan Goel",
+    id: 7,
+  },
+  {
+    name: "Sarthak Jain",
+    id: 8,
+  },
+  {
+    name: "Rohit Kumar",
+    id: 9,
+  },
+  {
+    name: "Gopal Gupta",
+    id: 10,
+  },
+]);
 const events = ref([
   {
     name: "Holiday",

@@ -22,7 +22,11 @@
       </div>
       <div class="input_container">
         <label class="event_label">Event User</label>
-        <input type="text" v-model="eventUser" />
+        <select class="select" v-model="eventUser">
+          <option v-for="user in props.users" :key="user.id" :value="user.id">
+            {{ user.name }}
+          </option>
+        </select>
       </div>
       <div class="input_container">
         <label class="event_label">Start Date</label>
@@ -37,7 +41,6 @@
           type="submit"
           :disabled="
             what.trim() === '' ||
-            eventUser.trim() === '' ||
             eventType.trim() === '' ||
             eventStartDate.trim() === '' ||
             eventEndDate.trim() === ''
@@ -52,11 +55,17 @@
 </template>
   
 <script setup>
+
+
 const props = defineProps({
   date: {
     type: Date,
     default: () => new Date(),
   },
+  users:{
+    type:Array,
+    default:()=>[]
+  }
 });
 const data = new Date(props.date);
 let day = data.getDate();
@@ -77,9 +86,14 @@ const eventType = ref("1");
 
 const emit = defineEmits(["closeModal", "toggleModal"]);
 
+const getUserName = (id, users) => {
+  const user = users.find((user) => user.id === Number(id));
+  return user.name;
+};
+
 const handleSubmit = () => {
   const evenDetail = {
-    eventUser: eventUser.value,
+    eventUser: getUserName(eventUser.value, props.users),
     what: what.value,
     eventType: Number(eventType.value),
     startDate: eventStartDate.value,
@@ -127,13 +141,17 @@ const handleCancel = () => {
   margin: auto;
   border-radius: 10px;
   position: relative;
+  animation: slide-up 0.4s linear;
 }
+
+
 
 .button_container {
   position: absolute;
   top: 0;
   right: 0;
   margin: 0.5rem;
+  
 }
 
 .button_container button {
@@ -168,6 +186,10 @@ const handleCancel = () => {
   align-items: center;
   width: 80%;
   margin: 0 0.4rem;
+  
+  animation: slide-up 0.3s linear;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
 }
 
 .event_label {
@@ -194,6 +216,9 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: slide-up 0.3s linear;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
 }
 
 .input_container_button button {
@@ -206,9 +231,9 @@ select {
   background-color: white;
   color: black;
   cursor: pointer;
-  transition: all 0.1s ease-in-out;
   width: 100%;
   margin-bottom: 10px;
+  
 }
 
 .input_container_button button:hover {
@@ -222,6 +247,21 @@ select {
   height: 2rem;
   padding: 0;
   background-color: white;
+}
+
+@keyframes slide-up{
+  from{
+    opacity: 0;
+    transform:  translateY(100%);
+    size: 0%;
+    
+  }
+  to{
+    opacity: 1;
+    transform: none;
+    size: 100%;
+  }
+
 }
 </style>
   

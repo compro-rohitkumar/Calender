@@ -21,9 +21,13 @@
         :key="calenderDay.Date"
         :data-date="calenderDay.Date"
         @click="toggleModal(calenderDay.Date)"
-        :class="{ 'selected': current(calenderDay.Date)}"
+        :class="{
+          'current': current(calenderDay.Date),
+          'selected': select(calenderDay.Date),
+          
+        }"
       >
-        <div class="calender-date" >
+        <div class="calender-date">
           <p
             class="text-center"
             :class="{ prevnextmonth: !calenderDay.current }"
@@ -37,7 +41,7 @@
           class="calender-event"
           :style="{ backgroundColor: event.color }"
         >
-          <p>{{ event.name }}</p>
+          <p>{{ `${event.eventUser} : ${event.name}` }}</p>
         </div>
       </div>
     </div>
@@ -46,8 +50,7 @@
 
 <script setup>
 const emit = defineEmits(["openModal"]);
-const view = ref("month");
-//props from app.vue
+const view = ref('month');
 
 const props = defineProps({
   all_events: {
@@ -73,6 +76,7 @@ const events = computed(() =>
   props.all_events.map((item) => {
     return {
       name: item.what,
+      eventUser: item.eventUser,
       startDate: new Date(item.startDate),
       endDate: new Date(item.endDate),
       color: item.backgroundColor,
@@ -80,7 +84,13 @@ const events = computed(() =>
     };
   })
 );
-
+const select = (date) => {
+  return date.getDate() === currentDate.value.getDate() &&
+    date.getMonth() === currentDate.value.getMonth() &&
+    date.getFullYear() === currentDate.value.getFullYear()
+    ? true
+    : false;
+};
 const linkEventToDate = () => {
   calenderDays.value.forEach((item) => {
     item.event = [];
@@ -99,26 +109,29 @@ const linkEventToDate = () => {
     });
   });
 };
-const current=(date)=>{
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-  return date.getTime() === currentDate.getTime();
-}
+const current = (date) => {
+  const persentDate = new Date();
+  persentDate.setHours(0, 0, 0, 0);
+  return (
+    date.getDate() === persentDate.getDate() &&
+    date.getMonth() === persentDate.getMonth() &&
+    date.getFullYear() === persentDate.getFullYear()
+  );
+};
 
 onMounted(() => {
   linkEventToDate();
 });
 
 const PrevMonth = () => {
-  calenderDays.value = getCalenderDays(view, "prev", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setMonth(new_date.getMonth() - 1);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const NextMonth = () => {
-  console.log(currentDate.value);
-  calenderDays.value = getCalenderDays(view, "next", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "next", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setMonth(new_date.getMonth() + 1);
   currentDate.value = new_date;
@@ -126,27 +139,27 @@ const NextMonth = () => {
 };
 
 const prevWeek = () => {
-  calenderDays.value = getCalenderDays(view, "prev", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setDate(new_date.getDate() + 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const nextWeek = () => {
-  calenderDays.value = getCalenderDays(view, "next", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "next", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setDate(new_date.getDate() - 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const getCurrentMonth = () => {
-  calenderDays.value = getCalenderDays(view, "current", new Date());
+  calenderDays.value = getCalenderDays(view.value, "current", new Date());
   currentDate.value = new Date();
   linkEventToDate();
 };
 
 const currentMonth = () => {
-  calenderDays.value = getDaysOfMonth(view, "current", date);
+  calenderDays.value = getDaysOfMonth(view.value, "current", date);
   currentDate.value = new Date();
   linkEventToDate();
 };
@@ -160,9 +173,12 @@ const toggleModal = (date) => {
 .point {
   cursor: pointer;
 }
-
 .selected {
-  background-color: #f8e8e8;
+  background-color: #C8FFE0;
+}
+
+.current {
+  background-color: #85E6C5;
 }
 
 .prevnextmonth {
