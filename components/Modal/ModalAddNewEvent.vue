@@ -23,7 +23,7 @@
         <input type="text" v-model="what" />
       </div>
       <div class="input_container">
-        <labe class="event_label">Event User</labe>
+        <label class="event_label">Event User</label>
         <input type="text" v-model="eventUser" />
       </div>
       <div class="input_container">
