@@ -35,14 +35,14 @@
   });
   console.log(props.view)
   const emit = defineEmits(["prevMonth", "nextMonth","prevWeek","nextWeek","changeView","current","openModal"]);
-//   const monthAndYear = ref(
-//     computed(() =>
-//     getMonthNameAndYear(
-//         props.date.Date.getMonth(),
-//         props.date.Date.getFullYear()
-//       )
-//     )
-//   );
+  const monthAndYear = ref(
+    computed(() =>
+    getMonthNameAndYear(
+        props.date.Date.getMonth(),
+        props.date.Date.getFullYear()
+      )
+    )
+  );
   const previousFunction = () => {
     if(props.view === "month"){
       emit("prevMonth");

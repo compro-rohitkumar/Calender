@@ -87,24 +87,56 @@ const linkEventToDate = () => {
 
 onMounted(() => {
   linkEventToDate();
-  // giveHeightToEachRow();
 });
 
-const PrevMonth = () => {
-    // implement this
 
-    datesOfMonth.value = getDaysOfPrevMonth("prev");
-    // addEventindatesOfMonth();
-    // giveHeightToEachRow();
+const PrevMonth = () => {
+    calenderDay.value = getCalenderDays(view,"prev",date.value);
+    const new_date = new Date(date.value);
+    new_date.setMonth(new_date.getMonth() - 1);
+    date.value = new_date;
+    LinkEventToDate();
 };
 const NextMonth = () => {
-    // implement this
-
-//    calenderDay.value = getDaysOfPrevMonth("next");
-//     // addEventindatesOfMonth();
-//     // giveHeight();
+    console.log(date.value);
+    calenderDay.value = getCalenderDays(view,"next",date.value);
+    const new_date = new Date(date.value);
+    new_date.setMonth(new_date.getMonth() + 1);
+    date.value = new_date;
+    LinkEventToDate();
 };
-const currentMonth = computed(() => calenderDays.value[15]);
+
+const prevWeek = () => {
+    calenderDay.value = getCalenderDays(view,"prev",date.value);
+    const new_date = new Date(date.value);
+    new_date.setDate(new_date.getDate() + 7);
+    date.value = new_date;
+    LinkEventToDate();
+};
+const nextWeek = () => {
+    calenderDay.value = getCalenderDays(view,"next",date.value);
+    const new_date = new Date(date.value);
+    new_date.setDate(new_date.getDate() - 7);
+    date.value = new_date;
+    LinkEventToDate();
+};
+const getCurrentMonth = () =>{
+    calenderDay.value = getCalenderDays(view,"current",new Date());
+    date.value = new Date();
+    LinkEventToDate();
+}
+
+
+
+const currentMonth = () =>{
+    calenderDay.value = getDaysOfMonth(view,"current",date);
+    date.value = new Date();
+    LinkEventToDate();
+}
+
+
+
+
 
 const toggleModal = (date) => {
   emit("openModal", date);
