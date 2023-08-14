@@ -119,7 +119,6 @@ const PrevMonth = () => {
 const NextMonth = () => {
   console.log(currentDate.value);
   calenderDays.value = getCalenderDays(view, "next", currentDate.value);
-  // console.log(calenderDays.value);
   const new_date = new Date(currentDate.value);
   new_date.setMonth(new_date.getMonth() + 1);
   currentDate.value = new_date;

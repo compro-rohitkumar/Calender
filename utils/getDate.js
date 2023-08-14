@@ -1,24 +1,34 @@
-export function getCalenderDays(view,calenderNavigation,currentDate) {
+function handleMonthNavigation(currentDate, calenderNavigation) {
+  if (calenderNavigation === "prev") {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+  } else if (calenderNavigation === "next") {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+  }
+  return currentDate;
+}
+
+function handleWeekNavigation(currentDate, calenderNavigation) {
+  if (calenderNavigation === "prev") {
+    currentDate.setDate(currentDate.getDate() - 7);
+  } else if (calenderNavigation === "next") {
+    currentDate.setDate(currentDate.getDate() + 7);
+  }
+  return currentDate;
+}
+
+export function getCalenderDays(view, calenderNavigation, currentDate) {
   currentDate = new Date(currentDate);
 
+
   if(view === "month"){
-    if(calenderNavigation === "prev"){
-      currentDate.setMonth(currentDate.getMonth() - 1);
-    }else if(calenderNavigation === "next"){
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    }
-  }else if(view === "week"){
-    if(calenderNavigation === "prev"){
-      currentDate.setDate(currentDate.getDate() - 7);
-    }else if(calenderNavigation === "next"){
-      currentDate.setDate(currentDate.getDate() + 7);
-    }
+    currentDate = handleMonthNavigation(currentDate, calenderNavigation);
   }
-  
+  else if(view === "week"){
+    currentDate = handleWeekNavigation(currentDate, calenderNavigation);
+  }
+
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
-
-
 
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
   const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
@@ -40,10 +50,9 @@ export function getCalenderDays(view,calenderNavigation,currentDate) {
     calenderDays.push({ current: false, Date: new Date(firstDayOfMonth) });
     firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
   }
-  
+
   return calenderDays;
 }
-
 
 // export function getDaysOfPrevMonth(data) {
 //   const currentMonth = today.getMonth();

@@ -4,9 +4,7 @@
   <div class="Modal">
     <div class="modal_container">
       <div class="button_container">
-        <button @click="handleCancel">
-          Cancel
-        </button>
+        <button @click="handleCancel">Cancel</button>
       </div>
       <h2 class="m-4 text-2xl">Create Event</h2>
       <div class="input_container">
@@ -35,12 +33,17 @@
         <input type="date" v-model="eventEndDate" />
       </div>
       <div class="input_container_button">
-        <button type="submit" :disabled="what.trim() === '' ||
-          eventUser.trim() === '' ||
-          eventType.trim() === '' ||
-          eventStartDate.trim() === '' ||
-          eventEndDate.trim() === ''
-          " @click="handleSubmit">
+        <button
+          type="submit"
+          :disabled="
+            what.trim() === '' ||
+            eventUser.trim() === '' ||
+            eventType.trim() === '' ||
+            eventStartDate.trim() === '' ||
+            eventEndDate.trim() === ''
+          "
+          @click="handleSubmit"
+        >
           Save
         </button>
       </div>
@@ -49,7 +52,6 @@
 </template>
   
 <script setup>
-
 const props = defineProps({
   date: {
     type: Date,
@@ -88,8 +90,6 @@ const handleSubmit = () => {
 const handleCancel = () => {
   emit("closeModal");
 };
-
-
 </script>
   
 <style scoped>
@@ -220,9 +220,8 @@ select {
 
 .select {
   height: 2rem;
-  padding:0;
+  padding: 0;
   background-color: white;
-
 }
 </style>
   

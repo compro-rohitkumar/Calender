@@ -8,7 +8,11 @@
       :selected_events="selected_events"
     />
     <!-- calenderRightbar -->
-    <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
+    <EventNavBar
+      :events="events"
+      @addEvent="addEvent"
+      @removeEvent="removeEvent"
+    />
   </div>
 </template>
 
@@ -67,7 +71,9 @@ const addEvent = (prop) => {
   update_component.value = !update_component.value;
 };
 const removeEvent = (eventID) => {
-  selected_events.value = selected_events.value.filter((item) => item !== eventID);
+  selected_events.value = selected_events.value.filter(
+    (item) => item !== eventID
+  );
   update_component.value = !update_component.value;
 };
 </script>
