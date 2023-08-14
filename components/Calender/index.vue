@@ -1,7 +1,7 @@
 <template>
   <main>
     <h1>Calender</h1>
-    <!-- <CalenderHeader :date="date" @prev="PrevMonth" @next="NextMonth" /> -->
+    <Navigation :date="date" @prev="PrevMonth" @next="NextMonth" />
     <!-- <CalenderWeekDay /> -->
     <div class="calender-container">
       <div

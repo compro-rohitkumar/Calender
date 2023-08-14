@@ -65,23 +65,23 @@ export function getCalenderDays(view,calnderNavigation,currentDate) {
 //   return getCalenderDays();
 // }
 
-// export function getMonthNameAndYear(month, year) {
-//   const months = [
-//     "January",
-//     "February",
-//     "March",
-//     "April",
-//     "May",
-//     "June",
-//     "July",
-//     "August",
-//     "September",
-//     "October",
-//     "November",
-//     "December",
-//   ];
-//   return `${months[month]} ${year}`;
-// }
+export function getMonthNameAndYear(month, year) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  return `${months[month]} ${year}`;
+}
 
 // export function getToDay() {
 //   const date = new Date();
