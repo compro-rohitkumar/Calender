@@ -33,7 +33,7 @@
       required: true,
     },
   });
-  console.log(props.view)
+  console.log(props.date)
   const emit = defineEmits(["prevMonth", "nextMonth","prevWeek","nextWeek","changeView","current","openModal"]);
   const monthAndYear = ref(
     computed(() =>

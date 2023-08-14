@@ -35,7 +35,7 @@
 
 <script setup>
 const emit = defineEmits(["openModal"]);
-
+const view = ref("month");
 //props from app.vue
 
 const props = defineProps({
@@ -91,48 +91,51 @@ onMounted(() => {
 
 
 const PrevMonth = () => {
-    calenderDay.value = getCalenderDays(view,"prev",date.value);
+    calenderDays.value = getCalenderDays(view,"prev",date.value);
     const new_date = new Date(date.value);
     new_date.setMonth(new_date.getMonth() - 1);
     date.value = new_date;
-    LinkEventToDate();
+    linkEventToDate();
 };
 const NextMonth = () => {
     console.log(date.value);
-    calenderDay.value = getCalenderDays(view,"next",date.value);
+    calenderDays.value = getCalenderDays(view,"next",date.value);
     const new_date = new Date(date.value);
     new_date.setMonth(new_date.getMonth() + 1);
     date.value = new_date;
-    LinkEventToDate();
+    linkEventToDate();
 };
 
 const prevWeek = () => {
-    calenderDay.value = getCalenderDays(view,"prev",date.value);
+    calenderDays.value = getCalenderDays(view,"prev",date.value);
     const new_date = new Date(date.value);
     new_date.setDate(new_date.getDate() + 7);
     date.value = new_date;
-    LinkEventToDate();
+    linkEventToDate();
 };
 const nextWeek = () => {
-    calenderDay.value = getCalenderDays(view,"next",date.value);
+    calenderDays.value = getCalenderDays(view,"next",date.value);
     const new_date = new Date(date.value);
     new_date.setDate(new_date.getDate() - 7);
     date.value = new_date;
-    LinkEventToDate();
+    linkEventToDate();
 };
 const getCurrentMonth = () =>{
-    calenderDay.value = getCalenderDays(view,"current",new Date());
+    calenderDays.value = getCalenderDays(view,"current",new Date());
     date.value = new Date();
-    LinkEventToDate();
+    linkEventToDate();
 }
+
 
 
 
 const currentMonth = () =>{
-    calenderDay.value = getDaysOfMonth(view,"current",date);
+    calenderDays.value = getDaysOfMonth(view,"current",date);
     date.value = new Date();
-    LinkEventToDate();
+    linkEventToDate();
 }
+
+const date = ref(calenderDays.value[15]);
 
 
 
