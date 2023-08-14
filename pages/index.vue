@@ -2,8 +2,7 @@
   <ModalAddNewEvent :date="date" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
     <Calender
-      @openModal="handleModal"
-      @toggleModal="toggleModal"
+      @openModal="toggleModal"
       :all_events="userCreatedEvent"
       :key="update_component"
       :selected_events="selected_events"
@@ -37,7 +36,7 @@ const events = ref([
 ]);
 const selected_events = ref(events.value.map((item) => item.id));
 
-const handleModal = (dateOfClick) => {
+const toggleModal = (dateOfClick) => {
   date.value = dateOfClick;
   modal.value = true;
 };
