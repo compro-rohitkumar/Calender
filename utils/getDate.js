@@ -1,5 +1,6 @@
 export function getCalenderDays(view,calenderNavigation,currentDate) {
   currentDate = new Date(currentDate);
+
   if(view === "month"){
     if(calenderNavigation === "prev"){
       currentDate.setMonth(currentDate.getMonth() - 1);
@@ -13,7 +14,7 @@ export function getCalenderDays(view,calenderNavigation,currentDate) {
       currentDate.setDate(currentDate.getDate() + 7);
     }
   }
-
+  
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
 
@@ -39,7 +40,7 @@ export function getCalenderDays(view,calenderNavigation,currentDate) {
     calenderDays.push({ current: false, Date: new Date(firstDayOfMonth) });
     firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
   }
-
+  
   return calenderDays;
 }
 

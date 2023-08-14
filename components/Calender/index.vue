@@ -1,7 +1,18 @@
 <template>
   <main>
     <h1>Calender</h1>
-    <Navigation :date="date" @prev="PrevMonth" @next="NextMonth" />
+    <Navigation
+      :date="currentDate"
+      @current="getCurrentMonth"
+      @prevMonth="PrevMonth"
+      @nextMonth="NextMonth"
+      @prevWeek="prevWeek"
+      @nextWeek="prevWeek"
+      @changeView="changeView"
+      @openModal="toggleModal(new Date())"
+      :view="view"
+      :key="view"
+    />
     <!-- <CalenderWeekDay /> -->
     <div class="calender-container">
       <div
@@ -9,10 +20,10 @@
         v-for="calenderDay in calenderDays"
         :key="calenderDay.Date"
         :data-date="calenderDay.Date"
-        :style="{ height: `${calenderDay.height}px` }"
         @click="toggleModal(calenderDay.Date)"
+        :class="{ 'selected': current(calenderDay.Date)}"
       >
-        <div class="calender-date" :class="{ selected: calenderDay.selected }">
+        <div class="calender-date" >
           <p
             class="text-center"
             :class="{ prevnextmonth: !calenderDay.current }"
@@ -49,6 +60,10 @@ const props = defineProps({
   },
 });
 
+const changeView = (viewValue) => {
+  view.value = viewValue;
+};
+
 const currentDate = ref(new Date());
 const calenderDays = ref(
   getCalenderDays("month", "current", currentDate.value)
@@ -84,62 +99,58 @@ const linkEventToDate = () => {
     });
   });
 };
+const current=(date)=>{
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+  return date.getTime() === currentDate.getTime();
+}
 
 onMounted(() => {
   linkEventToDate();
 });
 
-
 const PrevMonth = () => {
-    calenderDays.value = getCalenderDays(view,"prev",date.value);
-    const new_date = new Date(date.value);
-    new_date.setMonth(new_date.getMonth() - 1);
-    date.value = new_date;
-    linkEventToDate();
+  calenderDays.value = getCalenderDays(view, "prev", currentDate.value);
+  const new_date = new Date(currentDate.value);
+  new_date.setMonth(new_date.getMonth() - 1);
+  currentDate.value = new_date;
+  linkEventToDate();
 };
 const NextMonth = () => {
-    console.log(date.value);
-    calenderDays.value = getCalenderDays(view,"next",date.value);
-    const new_date = new Date(date.value);
-    new_date.setMonth(new_date.getMonth() + 1);
-    date.value = new_date;
-    linkEventToDate();
+  console.log(currentDate.value);
+  calenderDays.value = getCalenderDays(view, "next", currentDate.value);
+  // console.log(calenderDays.value);
+  const new_date = new Date(currentDate.value);
+  new_date.setMonth(new_date.getMonth() + 1);
+  currentDate.value = new_date;
+  linkEventToDate();
 };
 
 const prevWeek = () => {
-    calenderDays.value = getCalenderDays(view,"prev",date.value);
-    const new_date = new Date(date.value);
-    new_date.setDate(new_date.getDate() + 7);
-    date.value = new_date;
-    linkEventToDate();
+  calenderDays.value = getCalenderDays(view, "prev", currentDate.value);
+  const new_date = new Date(currentDate.value);
+  new_date.setDate(new_date.getDate() + 7);
+  currentDate.value = new_date;
+  linkEventToDate();
 };
 const nextWeek = () => {
-    calenderDays.value = getCalenderDays(view,"next",date.value);
-    const new_date = new Date(date.value);
-    new_date.setDate(new_date.getDate() - 7);
-    date.value = new_date;
-    linkEventToDate();
+  calenderDays.value = getCalenderDays(view, "next", currentDate.value);
+  const new_date = new Date(currentDate.value);
+  new_date.setDate(new_date.getDate() - 7);
+  currentDate.value = new_date;
+  linkEventToDate();
 };
-const getCurrentMonth = () =>{
-    calenderDays.value = getCalenderDays(view,"current",new Date());
-    date.value = new Date();
-    linkEventToDate();
-}
+const getCurrentMonth = () => {
+  calenderDays.value = getCalenderDays(view, "current", new Date());
+  currentDate.value = new Date();
+  linkEventToDate();
+};
 
-
-
-
-const currentMonth = () =>{
-    calenderDays.value = getDaysOfMonth(view,"current",date);
-    date.value = new Date();
-    linkEventToDate();
-}
-
-const date = ref(calenderDays.value[15]);
-
-
-
-
+const currentMonth = () => {
+  calenderDays.value = getDaysOfMonth(view, "current", date);
+  currentDate.value = new Date();
+  linkEventToDate();
+};
 
 const toggleModal = (date) => {
   emit("openModal", date);
