@@ -56,27 +56,6 @@ export function getCalenderDays(view, calenderNavigation, currentDate) {
   return calenderDays;
 }
 
-// export function getDaysOfPrevMonth(data) {
-//   const currentMonth = today.getMonth();
-//   if (data === "prev") {
-//     today.setMonth(currentMonth - 1);
-//   } else {
-//     today.setMonth(currentMonth + 1);
-//   }
-//   const month = getDaysOfMonth();
-//   return month;
-// }
-
-// export function getDaysofPrevWeek(data) {
-//   const currentDay = today.getDay();
-//   if (data === "prev") {
-//     today.setDate(today.getDate() - 7);
-//   } else {
-//     today.setDate(today.getDate() + 7);
-//   }
-//   return getDaysOfMonth();
-// }
-
 export function getMonthNameAndYear(month, year) {
   const months = [
     "January",
