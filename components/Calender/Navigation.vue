@@ -97,17 +97,18 @@ const toggleModal = () => {
   cursor: pointer;
   font-size: 1rem;
   transition: all;
-  background: black;
+  background: white;
   margin-right:0.3rem ;
   border-radius: 10px;
   padding: 0.5rem 1rem;
-  color: white;
+  color: black;
+  border:1px solid black;
   margin-bottom: 1rem;
 }
 
 .navigation_bar button:hover {
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
