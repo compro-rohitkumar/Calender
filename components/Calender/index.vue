@@ -1,25 +1,77 @@
 <template>
   <main>
     <h1>Calender</h1>
-    <Navigation :date="currentDate" @current="getCurrentMonth" @prevMonth="PrevMonth" @nextMonth="NextMonth"
-      @prevWeek="prevWeek" @nextWeek="nextWeek" @changeView="changeView" @openModal="toggleModal(new Date())" :view="view"
-      :key="view" />
-    <WeekDay />
-    <div class="calender-container">
-      <div class="calender-day" v-for="calenderDay in calenderDays" :key="calenderDay.Date" :data-date="calenderDay.Date"
-        @click="toggleModal(calenderDay.Date)" :class="{
-          'current': current(calenderDay.Date),
-          'selected': select(calenderDay.Date),
-
-        }">
-        <div class="calender-date">
-          <p class="text-center" :class="{ prevnextmonth: !calenderDay.current }">
-            {{ calenderDay.Date.getDate() }}
-          </p>
+    <Navigation
+      :date="currentDate"
+      @current="getCurrentMonth"
+      @prevMonth="PrevMonth"
+      @nextMonth="NextMonth"
+      @prevWeek="prevWeek"
+      @nextWeek="nextWeek"
+      @changeView="changeView"
+      @openModal="toggleModal(new Date())"
+      :view="view"
+      :key="view"
+    />
+    <div v-if="view === 'week'">
+      
+     <div class="calender-week-container">
+      <div class="time">
+        
+      </div>
+      <div v-for="day in calenderDays" :key="day">
+        <p>{{ getWeekNameAndDate(day.Date) }}</p>
+        
+      </div>
+     </div>
+      <div class="all-day">
+        <div>
+          <p>all day</p>
         </div>
-        <div v-for="event in calenderDay.event" :key="event.name" class="calender-event"
-          :style="{ backgroundColor: event.color }">
-          <p>{{ `${event.eventUser} : ${event.name}` }}</p>
+        <div v-for="day in calenderDays" :key="day">
+          <div
+            v-for="event in day.event"
+            :key="event.name"
+            class="calender-event"
+            :style="{ backgroundColor: event.color }"
+          >
+            <p>{{ `${event.eventUser} : ${event.name}` }}</p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div v-if="view === 'month' ">
+      <WeekDay />
+      <div class="calender-container">
+        <div
+          class="calender-day"
+          v-for="calenderDay in calenderDays"
+          :key="calenderDay.Date"
+          :data-date="calenderDay.Date"
+          @click="toggleModal(calenderDay.Date)"
+          :class="{
+            current: current(calenderDay.Date),
+            selected: select(calenderDay.Date),
+          }"
+        >
+          <div class="calender-date">
+            <p
+              class="text-center"
+              :class="{ prevnextmonth: !calenderDay.current }"
+            >
+              {{ calenderDay.Date.getDate() }}
+            </p>
+          </div>
+          <div
+            v-for="event in calenderDay.event"
+            :key="event.name"
+            class="calender-event"
+            :style="{ backgroundColor: event.color }"
+          >
+            <p>{{ `${event.eventUser} : ${event.name}` }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -28,7 +80,7 @@
 
 <script setup>
 const emit = defineEmits(["openModal"]);
-const view = ref('month');
+const view = ref("week");
 
 const props = defineProps({
   all_events: {
@@ -41,12 +93,19 @@ const props = defineProps({
   },
 });
 
-const changeView = (viewValue) => {
-  view.value = viewValue;
-};
+
 
 const currentDate = ref(new Date());
 const calenderDays = ref(null);
+
+const changeView = (viewValue) => {
+  view.value = viewValue;
+  if(viewValue === 'week'){
+    calenderDays.value = changeViewToWeek()
+  }else{
+    calenderDays.value = changeViewToMonth()
+  }
+};
 
 const events = computed(() =>
   props.all_events.map((item) => {
@@ -61,11 +120,13 @@ const events = computed(() =>
   })
 );
 const select = (date) => {
-  return date.getDate() === currentDate.value.getDate() &&
+  return (
+    date.getDate() === currentDate.value.getDate() &&
     date.getMonth() === currentDate.value.getMonth() &&
-    date.getFullYear() === currentDate.value.getFullYear();
+    date.getFullYear() === currentDate.value.getFullYear()
+  );
 };
-const linkEventToDate = () => {
+const linkEventToDate = () => { 
   calenderDays.value.forEach((item) => {
     item.event = [];
     events.value.forEach((event) => {
@@ -93,15 +154,16 @@ const current = (date) => {
   );
 };
 
-
-
 onMounted(() => {
-  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
-});
-
-onBeforeUpdate(() => {
+  calenderDays.value = getCalenderDays(
+    view.value,
+    "current",
+    currentDate.value
+  );
   linkEventToDate();
 });
+
+
 
 const PrevMonth = () => {
   calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
@@ -138,11 +200,23 @@ const getCurrentMonth = () => {
   linkEventToDate();
 };
 
-const currentMonth = () => {
-  calenderDays.value = getDaysOfMonth(view.value, "current", date);
+const getCurrentWeek = () => {
+  calenderDays.value = getCalenderDays(view.value, "current", new Date());
   currentDate.value = new Date();
   linkEventToDate();
 };
+
+const changeViewToWeek = () =>{
+  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+  linkEventToDate();
+}
+
+const changeViewToMonth = () =>{
+  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+  linkEventToDate();
+}
+
+
 
 const toggleModal = (date) => {
   emit("openModal", date);
@@ -155,11 +229,11 @@ const toggleModal = (date) => {
 }
 
 .selected {
-  background-color: #C8FFE0;
+  background-color: #c8ffe0;
 }
 
 .current {
-  background-color: #85E6C5;
+  background-color: #85e6c5;
 }
 
 .prevnextmonth {
@@ -223,5 +297,16 @@ h1 {
   padding: 0;
   font-size: 0.8rem;
   word-break: break-all;
+}
+.calender-week-container{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 1px solid rgb(176, 172, 172, 0.5);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.calender-week-container div{
+  border-left: 0.5px gray solid;
 }
 </style>

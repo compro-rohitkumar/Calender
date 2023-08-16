@@ -25,9 +25,7 @@ export function getCalenderDays(view, calenderNavigation, currentDate) {
       handleMonthNavigation(currentDate, calenderNavigation)
     );
   } else if (view === "week") {
-    currentDate = new Date(
-      handleWeekNavigation(currentDate, calenderNavigation)
-    );
+   return getDatesForCurrentWeek(currentDate, calenderNavigation);
   }
 
   const currentMonth = currentDate.getMonth();
@@ -73,4 +71,37 @@ export function getMonthNameAndYear(month, year) {
     "December",
   ];
   return `${months[month]} ${year}`;
+}
+
+export function getWeekNameAndDate(datesInWeek) {
+  console.log(datesInWeek);
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const startDate = datesInWeek.getDate();
+
+  const Day = days[datesInWeek.getDay()];
+  return `${startDate} - ${Day}`;
+
+}
+
+
+export function getDatesForCurrentWeek(currentDate, calenderNavigation = "current") {
+  
+  const today = new Date(handleWeekNavigation(currentDate, calenderNavigation));
+  
+  const currentDay = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+  const startOfWeek = new Date(today); // Copy current date
+  const endOfWeek = new Date(today); // Copy current date
+
+  startOfWeek.setDate(today.getDate() - currentDay + 1); // Set to Monday of current week
+  endOfWeek.setDate(today.getDate() + (7 - currentDay)); // Set to Sunday of current week
+
+  const datesInWeek = [];
+  for (let d = startOfWeek; d <= endOfWeek; d.setDate(d.getDate() + 1)) {
+    datesInWeek.push({
+      current: true,
+      Date: new Date(d),
+    });
+  }
+ 
+  return datesInWeek;
 }
