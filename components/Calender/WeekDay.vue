@@ -9,9 +9,6 @@
         <div>Sunday</div>
     </div>
 </template>
-
-
-
 <style scoped>
     .grid{
         display: grid;
