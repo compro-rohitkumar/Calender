@@ -97,6 +97,10 @@ const current = (date) => {
 
 onMounted(() => {
   calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+});
+
+onBeforeUpdate(() => {
+  
   linkEventToDate();
 });
 

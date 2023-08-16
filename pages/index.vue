@@ -1,18 +1,9 @@
 <template>
   <ModalAddNewEvent :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
-    <Calender
-      @openModal="toggleModal"
-      :all_events="userCreatedEvent"
-      :key="update_component"
-      :selected_events="selected_events"
-    />
+    <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" />
     <!-- calenderRightbar -->
-    <EventNavBar
-      :events="events"
-      @addEvent="addEvent"
-      @removeEvent="removeEvent"
-    />
+    <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
   </div>
 </template>
 
@@ -94,30 +85,24 @@ const closeModal = (prop = null) => {
     modal.value = false;
     return;
   }
-
-  userCreatedEvent.value.push({
+  userCreatedEvent.value = [...userCreatedEvent.value, {
     what: prop.what,
     eventUser: prop.eventUser,
     id: prop.eventType,
     backgroundColor: color[prop.eventType],
     startDate: prop.startDate,
     endDate: prop.endDate,
-  });
+  }]
+
   console.log(userCreatedEvent.value);
-  update_component.value = !update_component.value;
   modal.value = false;
 };
 
 const addEvent = (prop) => {
-  selected_events.value.push(prop);
-  console.log(selected_events.value);
-  update_component.value = !update_component.value;
+  selected_events.value = [...selected_events.value, prop];
 };
 const removeEvent = (eventID) => {
-  selected_events.value = selected_events.value.filter(
-    (item) => item !== eventID
-  );
-  update_component.value = !update_component.value;
+  selected_events.value = [...selected_events.value.filter((item) => item !== eventID)]
 };
 </script>
 
