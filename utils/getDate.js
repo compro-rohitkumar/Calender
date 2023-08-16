@@ -1,24 +1,34 @@
+function handleMonthNavigation(currentDate, calenderNavigation) {
+  if (calenderNavigation === "prev") {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+  } else if (calenderNavigation === "next") {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+  }
+  return currentDate;
+}
 
-export function getCalenderDays(view,calnderNavigation,currentDate) {
- 
+function handleWeekNavigation(currentDate, calenderNavigation) {
+  if (calenderNavigation === "prev") {
+    currentDate.setDate(currentDate.getDate() - 7);
+  } else if (calenderNavigation === "next") {
+    currentDate.setDate(currentDate.getDate() + 7);
+  }
+  return currentDate;
+}
+
+export function getCalenderDays(view, calenderNavigation, currentDate) {
+  currentDate = new Date(currentDate);
+
+
   if(view === "month"){
-    if(calnderNavigation === "prev"){
-      currentDate.setMonth(currentDate.getMonth() - 1);
-    }else if(calnderNavigation === "next"){
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    }
-  }else if(view === "week"){
-    if(calnderNavigation === "prev"){
-      currentDate.setDate(currentDate.getDate() - 7);
-    }else if(calnderNavigation === "next"){
-      currentDate.setDate(currentDate.getDate() + 7);
-    }
+    currentDate = handleMonthNavigation(currentDate, calenderNavigation);
+  }
+  else if(view === "week"){
+    currentDate = handleWeekNavigation(currentDate, calenderNavigation);
   }
 
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
-
-
 
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
   const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
@@ -35,8 +45,8 @@ export function getCalenderDays(view,calnderNavigation,currentDate) {
     calenderDays.push({ current: true, Date: new Date(firstDayOfMonth) });
     firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
   }
-  let totalNextMonthDays = lastDayOfMonth.getDay();
-  for (let i = 0; i < 7 - totalNextMonthDays - 1; i++) {
+  totalPrevMonthDays = lastDayOfMonth.getDay();
+  for (let i = 0; i < 7 - totalPrevMonthDays - 1; i++) {
     calenderDays.push({ current: false, Date: new Date(firstDayOfMonth) });
     firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
   }
@@ -51,7 +61,7 @@ export function getCalenderDays(view,calnderNavigation,currentDate) {
 //   } else {
 //     today.setMonth(currentMonth + 1);
 //   }
-//   const month = getCalenderDays();
+//   const month = getDaysOfMonth();
 //   return month;
 // }
 
@@ -62,29 +72,29 @@ export function getCalenderDays(view,calnderNavigation,currentDate) {
 //   } else {
 //     today.setDate(today.getDate() + 7);
 //   }
-//   return getCalenderDays();
+//   return getDaysOfMonth();
 // }
 
-// export function getMonthNameAndYear(month, year) {
-//   const months = [
-//     "January",
-//     "February",
-//     "March",
-//     "April",
-//     "May",
-//     "June",
-//     "July",
-//     "August",
-//     "September",
-//     "October",
-//     "November",
-//     "December",
-//   ];
-//   return `${months[month]} ${year}`;
-// }
+export function getMonthNameAndYear(month, year) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  return `${months[month]} ${year}`;
+}
 
-// export function getToDay() {
-//   const date = new Date();
-//   today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-//   return getCalenderDays();
-// }
+export function getToDay() {
+  const date = new Date();
+  today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  return getDaysOfMonth();
+}
