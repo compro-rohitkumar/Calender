@@ -19,7 +19,6 @@ function handleWeekNavigation(currentDate, calenderNavigation) {
 
 export function getCalenderDays(view, calenderNavigation, currentDate) {
   currentDate = new Date(currentDate);
-  if (view === "month") {
 
   if (view === "month") {
     currentDate = new Date(
