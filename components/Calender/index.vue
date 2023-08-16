@@ -46,9 +46,7 @@ const changeView = (viewValue) => {
 };
 
 const currentDate = ref(new Date());
-const calenderDays = ref(
-  getCalenderDays("month", "current", currentDate.value)
-);
+const calenderDays = ref(null);
 
 const events = computed(() =>
   props.all_events.map((item) => {
@@ -95,7 +93,10 @@ const current = (date) => {
   );
 };
 
+
+
 onMounted(() => {
+  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
   linkEventToDate();
 });
 
