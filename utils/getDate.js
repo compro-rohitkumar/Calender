@@ -19,12 +19,14 @@ function handleWeekNavigation(currentDate, calenderNavigation) {
 export function getCalenderDays(view, calenderNavigation, currentDate) {
   currentDate = new Date(currentDate);
 
-
-  if(view === "month"){
-    currentDate = new Date(handleMonthNavigation(currentDate, calenderNavigation));
-  }
-  else if(view === "week"){
-    currentDate = new Date(handleWeekNavigation(currentDate, calenderNavigation));
+  if (view === "month") {
+    currentDate = new Date(
+      handleMonthNavigation(currentDate, calenderNavigation)
+    );
+  } else if (view === "week") {
+    currentDate = new Date(
+      handleWeekNavigation(currentDate, calenderNavigation)
+    );
   }
 
   const currentMonth = currentDate.getMonth();
@@ -91,10 +93,4 @@ export function getMonthNameAndYear(month, year) {
     "December",
   ];
   return `${months[month]} ${year}`;
-}
-
-export function getToDay() {
-  const date = new Date();
-  today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  return getDaysOfMonth();
 }

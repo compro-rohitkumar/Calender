@@ -84,6 +84,7 @@ const selected_events = ref(events.value.map((item) => item.id));
 
 const toggleModal = (dateOfClick) => {
   date.value = dateOfClick;
+  window.scrollTo(0, 0);
   modal.value = true;
 };
 const color = ["#F87171", "#FBBF24", "#34D399", "#60A5FA"];

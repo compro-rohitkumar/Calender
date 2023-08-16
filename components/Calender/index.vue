@@ -1,46 +1,24 @@
 <template>
   <main>
     <h1>Calender</h1>
-    <Navigation
-      :date="currentDate"
-      @current="getCurrentMonth"
-      @prevMonth="PrevMonth"
-      @nextMonth="NextMonth"
-      @prevWeek="prevWeek"
-      @nextWeek="prevWeek"
-      @changeView="changeView"
-      @openModal="toggleModal(new Date())"
-      :view="view"
-      :key="view"
-    />
-    <!-- <CalenderWeekDay /> -->
+    <Navigation :date="currentDate" @current="getCurrentMonth" @prevMonth="PrevMonth" @nextMonth="NextMonth"
+      @prevWeek="prevWeek" @nextWeek="nextWeek" @changeView="changeView" @openModal="toggleModal(new Date())" :view="view"
+      :key="view" />
+    <WeekDay />
     <div class="calender-container">
-      <div
-        class="calender-day"
-        v-for="calenderDay in calenderDays"
-        :key="calenderDay.Date"
-        :data-date="calenderDay.Date"
-        @click="toggleModal(calenderDay.Date)"
-        :class="{
+      <div class="calender-day" v-for="calenderDay in calenderDays" :key="calenderDay.Date" :data-date="calenderDay.Date"
+        @click="toggleModal(calenderDay.Date)" :class="{
           'current': current(calenderDay.Date),
           'selected': select(calenderDay.Date),
-          
-        }"
-      >
+
+        }">
         <div class="calender-date">
-          <p
-            class="text-center"
-            :class="{ prevnextmonth: !calenderDay.current }"
-          >
+          <p class="text-center" :class="{ prevnextmonth: !calenderDay.current }">
             {{ calenderDay.Date.getDate() }}
           </p>
         </div>
-        <div
-          v-for="event in calenderDay.event"
-          :key="event.name"
-          class="calender-event"
-          :style="{ backgroundColor: event.color }"
-        >
+        <div v-for="event in calenderDay.event" :key="event.name" class="calender-event"
+          :style="{ backgroundColor: event.color }">
           <p>{{ `${event.eventUser} : ${event.name}` }}</p>
         </div>
       </div>
@@ -87,9 +65,7 @@ const events = computed(() =>
 const select = (date) => {
   return date.getDate() === currentDate.value.getDate() &&
     date.getMonth() === currentDate.value.getMonth() &&
-    date.getFullYear() === currentDate.value.getFullYear()
-    ? true
-    : false;
+    date.getFullYear() === currentDate.value.getFullYear();
 };
 const linkEventToDate = () => {
   calenderDays.value.forEach((item) => {
@@ -141,14 +117,14 @@ const NextMonth = () => {
 const prevWeek = () => {
   calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
   const new_date = new Date(currentDate.value);
-  new_date.setDate(new_date.getDate() + 7);
+  new_date.setDate(new_date.getDate() - 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const nextWeek = () => {
   calenderDays.value = getCalenderDays(view.value, "next", currentDate.value);
   const new_date = new Date(currentDate.value);
-  new_date.setDate(new_date.getDate() - 7);
+  new_date.setDate(new_date.getDate() + 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
@@ -173,6 +149,7 @@ const toggleModal = (date) => {
 .point {
   cursor: pointer;
 }
+
 .selected {
   background-color: #C8FFE0;
 }
@@ -188,7 +165,7 @@ const toggleModal = (date) => {
 main {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  width: 80%;
 }
 
 h1 {
@@ -241,8 +218,6 @@ h1 {
   margin: 0;
   padding: 0;
   font-size: 0.8rem;
-  /* color: white;
-     */
   word-break: break-all;
 }
 </style>
