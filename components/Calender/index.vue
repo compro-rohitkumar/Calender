@@ -100,7 +100,6 @@ onMounted(() => {
 });
 
 onBeforeUpdate(() => {
-  
   linkEventToDate();
 });
 
