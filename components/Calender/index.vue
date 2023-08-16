@@ -20,10 +20,10 @@
         v-for="calenderDay in calenderDays"
         :key="calenderDay.Date"
         :data-date="calenderDay.Date"
-        :style="{ height: `${calenderDay.height}px` }"
         @click="toggleModal(calenderDay.Date)"
+        :class="{ 'selected': current(calenderDay.Date)}"
       >
-        <div class="calender-date" :class="{ selected: calenderDay.selected }">
+        <div class="calender-date" >
           <p
             class="text-center"
             :class="{ prevnextmonth: !calenderDay.current }"
