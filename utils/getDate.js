@@ -4,6 +4,7 @@ function handleMonthNavigation(currentDate, calenderNavigation) {
   } else if (calenderNavigation === "next") {
     currentDate.setMonth(currentDate.getMonth() + 1);
   }
+  
   return currentDate;
 }
 
@@ -18,12 +19,10 @@ function handleWeekNavigation(currentDate, calenderNavigation) {
 
 export function getCalenderDays(view, calenderNavigation, currentDate) {
   currentDate = new Date(currentDate);
+  if (view === "month") {
 
-
-  if(view === "month"){
     currentDate = handleMonthNavigation(currentDate, calenderNavigation);
-  }
-  else if(view === "week"){
+  } else if (view === "week") {
     currentDate = handleWeekNavigation(currentDate, calenderNavigation);
   }
 

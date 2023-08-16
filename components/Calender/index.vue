@@ -110,15 +110,14 @@ onMounted(() => {
 });
 
 const PrevMonth = () => {
-  calenderDays.value = getCalenderDays(view, "prev", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setMonth(new_date.getMonth() - 1);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const NextMonth = () => {
-  console.log(currentDate.value);
-  calenderDays.value = getCalenderDays(view, "next", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "next", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setMonth(new_date.getMonth() + 1);
   currentDate.value = new_date;
@@ -126,27 +125,27 @@ const NextMonth = () => {
 };
 
 const prevWeek = () => {
-  calenderDays.value = getCalenderDays(view, "prev", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setDate(new_date.getDate() + 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const nextWeek = () => {
-  calenderDays.value = getCalenderDays(view, "next", currentDate.value);
+  calenderDays.value = getCalenderDays(view.value, "next", currentDate.value);
   const new_date = new Date(currentDate.value);
   new_date.setDate(new_date.getDate() - 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const getCurrentMonth = () => {
-  calenderDays.value = getCalenderDays(view, "current", new Date());
+  calenderDays.value = getCalenderDays(view.value, "current", new Date());
   currentDate.value = new Date();
   linkEventToDate();
 };
 
 const currentMonth = () => {
-  calenderDays.value = getDaysOfMonth(view, "current", date);
+  calenderDays.value = getDaysOfMonth(view.value, "current", date);
   currentDate.value = new Date();
   linkEventToDate();
 };
