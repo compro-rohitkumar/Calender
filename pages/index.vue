@@ -1,18 +1,9 @@
 <template>
-  <ModalAddNewEvent :date="date" @closeModal="closeModal" v-if="modal" />
+  <ModalAddNewEvent :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
-    <Calender
-      @openModal="toggleModal"
-      :all_events="userCreatedEvent"
-      :key="update_component"
-      :selected_events="selected_events"
-    />
+    <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" />
     <!-- calenderRightbar -->
-    <EventNavBar
-      :events="events"
-      @addEvent="addEvent"
-      @removeEvent="removeEvent"
-    />
+    <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
   </div>
 </template>
 
@@ -21,6 +12,48 @@ const modal = ref(false);
 const date = ref(null);
 const userCreatedEvent = ref([]);
 const update_component = ref(false);
+const users = ref([
+  {
+    name: "Nirmal Kumar",
+    id: 1,
+  },
+  {
+    name: "Manpreet Singh",
+    id: 2,
+  },
+  {
+    name: "Parveen Kumar",
+    id: 3,
+  },
+  {
+    name: "Manoj saini",
+    id: 4,
+  },
+  {
+    name: "Ashmeet Kaur",
+    id: 5,
+  },
+  {
+    name: "Susanto Mondal",
+    id: 6,
+  },
+  {
+    name: "Rohan Goel",
+    id: 7,
+  },
+  {
+    name: "Sarthak Jain",
+    id: 8,
+  },
+  {
+    name: "Rohit Kumar",
+    id: 9,
+  },
+  {
+    name: "Gopal Gupta",
+    id: 10,
+  },
+]);
 const events = ref([
   {
     name: "Holiday",
@@ -42,6 +75,7 @@ const selected_events = ref(events.value.map((item) => item.id));
 
 const toggleModal = (dateOfClick) => {
   date.value = dateOfClick;
+  window.scrollTo(0, 0);
   modal.value = true;
 };
 const color = ["#F87171", "#FBBF24", "#34D399", "#60A5FA"];
@@ -51,30 +85,24 @@ const closeModal = (prop = null) => {
     modal.value = false;
     return;
   }
-
-  userCreatedEvent.value.push({
+  userCreatedEvent.value = [...userCreatedEvent.value, {
     what: prop.what,
     eventUser: prop.eventUser,
     id: prop.eventType,
     backgroundColor: color[prop.eventType],
     startDate: prop.startDate,
     endDate: prop.endDate,
-  });
+  }]
+
   console.log(userCreatedEvent.value);
-  update_component.value = !update_component.value;
   modal.value = false;
 };
 
 const addEvent = (prop) => {
-  selected_events.value.push(prop);
-  console.log(selected_events.value);
-  update_component.value = !update_component.value;
+  selected_events.value = [...selected_events.value, prop];
 };
 const removeEvent = (eventID) => {
-  selected_events.value = selected_events.value.filter(
-    (item) => item !== eventID
-  );
-  update_component.value = !update_component.value;
+  selected_events.value = [...selected_events.value.filter((item) => item !== eventID)]
 };
 </script>
 

@@ -1,43 +1,25 @@
 <template>
   <main>
     <h1>Calender</h1>
-    <Navigation
-      :date="currentDate"
-      @current="getCurrentMonth"
-      @prevMonth="PrevMonth"
-      @nextMonth="NextMonth"
-      @prevWeek="prevWeek"
-      @nextWeek="prevWeek"
-      @changeView="changeView"
-      @openModal="toggleModal(new Date())"
-      :view="view"
-      :key="view"
-    />
-    <!-- <CalenderWeekDay /> -->
+    <Navigation :date="currentDate" @current="getCurrentMonth" @prevMonth="PrevMonth" @nextMonth="NextMonth"
+      @prevWeek="prevWeek" @nextWeek="nextWeek" @changeView="changeView" @openModal="toggleModal(new Date())" :view="view"
+      :key="view" />
+    <WeekDay />
     <div class="calender-container">
-      <div
-        class="calender-day"
-        v-for="calenderDay in calenderDays"
-        :key="calenderDay.Date"
-        :data-date="calenderDay.Date"
-        @click="toggleModal(calenderDay.Date)"
-        :class="{ 'selected': current(calenderDay.Date)}"
-      >
-        <div class="calender-date" >
-          <p
-            class="text-center"
-            :class="{ prevnextmonth: !calenderDay.current }"
-          >
+      <div class="calender-day" v-for="calenderDay in calenderDays" :key="calenderDay.Date" :data-date="calenderDay.Date"
+        @click="toggleModal(calenderDay.Date)" :class="{
+          'current': current(calenderDay.Date),
+          'selected': select(calenderDay.Date),
+
+        }">
+        <div class="calender-date">
+          <p class="text-center" :class="{ prevnextmonth: !calenderDay.current }">
             {{ calenderDay.Date.getDate() }}
           </p>
         </div>
-        <div
-          v-for="event in calenderDay.event"
-          :key="event.name"
-          class="calender-event"
-          :style="{ backgroundColor: event.color }"
-        >
-          <p>{{ event.name }}</p>
+        <div v-for="event in calenderDay.event" :key="event.name" class="calender-event"
+          :style="{ backgroundColor: event.color }">
+          <p>{{ `${event.eventUser} : ${event.name}` }}</p>
         </div>
       </div>
     </div>
@@ -46,8 +28,7 @@
 
 <script setup>
 const emit = defineEmits(["openModal"]);
-const view = ref("month");
-//props from app.vue
+const view = ref('month');
 
 const props = defineProps({
   all_events: {
@@ -65,14 +46,13 @@ const changeView = (viewValue) => {
 };
 
 const currentDate = ref(new Date());
-const calenderDays = ref(
-  getCalenderDays("month", "current", currentDate.value)
-);
+const calenderDays = ref(null);
 
 const events = computed(() =>
   props.all_events.map((item) => {
     return {
       name: item.what,
+      eventUser: item.eventUser,
       startDate: new Date(item.startDate),
       endDate: new Date(item.endDate),
       color: item.backgroundColor,
@@ -80,7 +60,11 @@ const events = computed(() =>
     };
   })
 );
-
+const select = (date) => {
+  return date.getDate() === currentDate.value.getDate() &&
+    date.getMonth() === currentDate.value.getMonth() &&
+    date.getFullYear() === currentDate.value.getFullYear();
+};
 const linkEventToDate = () => {
   calenderDays.value.forEach((item) => {
     item.event = [];
@@ -99,13 +83,23 @@ const linkEventToDate = () => {
     });
   });
 };
-const current=(date)=>{
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-  return date.getTime() === currentDate.getTime();
-}
+const current = (date) => {
+  const persentDate = new Date();
+  persentDate.setHours(0, 0, 0, 0);
+  return (
+    date.getDate() === persentDate.getDate() &&
+    date.getMonth() === persentDate.getMonth() &&
+    date.getFullYear() === persentDate.getFullYear()
+  );
+};
+
+
 
 onMounted(() => {
+  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+});
+
+onBeforeUpdate(() => {
   linkEventToDate();
 });
 
@@ -127,14 +121,14 @@ const NextMonth = () => {
 const prevWeek = () => {
   calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
   const new_date = new Date(currentDate.value);
-  new_date.setDate(new_date.getDate() + 7);
+  new_date.setDate(new_date.getDate() - 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
 const nextWeek = () => {
   calenderDays.value = getCalenderDays(view.value, "next", currentDate.value);
   const new_date = new Date(currentDate.value);
-  new_date.setDate(new_date.getDate() - 7);
+  new_date.setDate(new_date.getDate() + 7);
   currentDate.value = new_date;
   linkEventToDate();
 };
@@ -161,7 +155,11 @@ const toggleModal = (date) => {
 }
 
 .selected {
-  background-color: #f8e8e8;
+  background-color: #C8FFE0;
+}
+
+.current {
+  background-color: #85E6C5;
 }
 
 .prevnextmonth {
@@ -171,7 +169,7 @@ const toggleModal = (date) => {
 main {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  width: 80%;
 }
 
 h1 {
@@ -224,8 +222,6 @@ h1 {
   margin: 0;
   padding: 0;
   font-size: 0.8rem;
-  /* color: white;
-     */
   word-break: break-all;
 }
 </style>

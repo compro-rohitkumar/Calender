@@ -19,11 +19,15 @@ function handleWeekNavigation(currentDate, calenderNavigation) {
 
 export function getCalenderDays(view, calenderNavigation, currentDate) {
   currentDate = new Date(currentDate);
-  if (view === "month") {
 
-    currentDate = handleMonthNavigation(currentDate, calenderNavigation);
+  if (view === "month") {
+    currentDate = new Date(
+      handleMonthNavigation(currentDate, calenderNavigation)
+    );
   } else if (view === "week") {
-    currentDate = handleWeekNavigation(currentDate, calenderNavigation);
+    currentDate = new Date(
+      handleWeekNavigation(currentDate, calenderNavigation)
+    );
   }
 
   const currentMonth = currentDate.getMonth();
@@ -53,27 +57,6 @@ export function getCalenderDays(view, calenderNavigation, currentDate) {
   return calenderDays;
 }
 
-// export function getDaysOfPrevMonth(data) {
-//   const currentMonth = today.getMonth();
-//   if (data === "prev") {
-//     today.setMonth(currentMonth - 1);
-//   } else {
-//     today.setMonth(currentMonth + 1);
-//   }
-//   const month = getDaysOfMonth();
-//   return month;
-// }
-
-// export function getDaysofPrevWeek(data) {
-//   const currentDay = today.getDay();
-//   if (data === "prev") {
-//     today.setDate(today.getDate() - 7);
-//   } else {
-//     today.setDate(today.getDate() + 7);
-//   }
-//   return getDaysOfMonth();
-// }
-
 export function getMonthNameAndYear(month, year) {
   const months = [
     "January",
@@ -90,10 +73,4 @@ export function getMonthNameAndYear(month, year) {
     "December",
   ];
   return `${months[month]} ${year}`;
-}
-
-export function getToDay() {
-  const date = new Date();
-  today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  return getDaysOfMonth();
 }

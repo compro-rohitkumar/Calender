@@ -33,7 +33,9 @@ const handleClick = (prop) => {
 </script>
 <style scoped>
 .RightBar_container {
-  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 20%;
 }
 

@@ -91,13 +91,19 @@ const toggleModal = () => {
   display: row;
 }
 .navigation_bar button {
-  padding: 5px;
-  margin-right: 6px;
-  margin-bottom: 5px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all;
+  background: white;
+  margin-right:0.3rem ;
   border-radius: 10px;
-  background-color: white;
+  padding: 0.5rem 1rem;
   color: black;
-  transition: hover;
+  border:1px solid black;
+  margin-bottom: 1rem;
 }
 
 .navigation_bar button:hover {
@@ -114,6 +120,6 @@ const toggleModal = () => {
   justify-self: end;
 }
 .selected {
-  background-color: #f8e8e8 !important;
+  background-color: #C8FFE0 !important;
 }
 </style>
