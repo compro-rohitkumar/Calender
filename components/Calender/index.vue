@@ -1,25 +1,53 @@
 <template>
   <main>
-    <h1>Calender</h1>
-    <Navigation :date="currentDate" @current="getCurrentMonth" @prevMonth="PrevMonth" @nextMonth="NextMonth"
-      @prevWeek="prevWeek" @nextWeek="nextWeek" @changeView="changeView" @openModal="toggleModal(new Date())" :view="view"
-      :key="view" />
-    <WeekDay />
-    <div class="calender-container">
-      <div class="calender-day" v-for="calenderDay in calenderDays" :key="calenderDay.Date" :data-date="calenderDay.Date"
-        @click="toggleModal(calenderDay.Date)" :class="{
-          'current': current(calenderDay.Date),
-          'selected': select(calenderDay.Date),
-
-        }">
-        <div class="calender-date">
-          <p class="text-center" :class="{ prevnextmonth: !calenderDay.current }">
-            {{ calenderDay.Date.getDate() }}
-          </p>
-        </div>
-        <div v-for="event in calenderDay.event" :key="event.name" class="calender-event"
-          :style="{ backgroundColor: event.color }">
-          <p>{{ `${event.eventUser} : ${event.name}` }}</p>
+    <h1>Compro Calender</h1>
+    <Navigation
+      :date="currentDate"
+      @current="getCurrentMonth"
+      @prevMonth="PrevMonth"
+      @nextMonth="NextMonth"
+      @prevWeek="prevWeek"
+      @nextWeek="nextWeek"
+      @changeView="changeView"
+      @openModal="toggleModal(new Date())"
+      :view="view"
+      :key="view"
+    />
+    <div v-if="view === 'week'">
+      <WeekCalender :calenderDays="calenderDays" />
+      <AllDay :calenderDays="calenderDays" @toggleModal="toggleModal"/>
+      <AllHour :calenderDays="calenderDays" @addEvent="toggleHourModel" />
+    </div>
+    <div v-if="view === 'month'">
+      <WeekDay />
+      <div class="calender-container">
+        <div
+          class="calender-day"
+          v-for="calenderDay in calenderDays"
+          :key="calenderDay.Date"
+          :data-date="calenderDay.Date"
+          @click="toggleModal(calenderDay.Date)"
+          :class="{
+            current: current(calenderDay.Date),
+            selected: select(calenderDay.Date),
+          }"
+        >
+          <div class="calender-date">
+            <p
+              class="text-center"
+              :class="{ prevnextmonth: !calenderDay.current }"
+            >
+              {{ calenderDay.Date.getDate() }}
+            </p>
+          </div>
+          <div
+            v-for="event in calenderDay.event"
+            :key="event.name"
+            class="calender-event"
+            :style="{ backgroundColor: event.color }"
+          >
+            <p>{{ `${event.eventUser} : ${event.name}` }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -27,8 +55,8 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["openModal"]);
-const view = ref('month');
+const emit = defineEmits(["openModal", "toggleHourModel"]);
+const view = ref("month");
 
 const props = defineProps({
   all_events: {
@@ -41,12 +69,19 @@ const props = defineProps({
   },
 });
 
-const changeView = (viewValue) => {
-  view.value = viewValue;
-};
-
 const currentDate = ref(new Date());
 const calenderDays = ref(null);
+
+const changeView = (viewValue) => {
+  view.value = viewValue;
+  if (viewValue === "week") {
+    changeViewToWeek();
+  } else {
+    changeViewToMonth();
+  }
+};
+
+
 
 const events = computed(() =>
   props.all_events.map((item) => {
@@ -61,9 +96,11 @@ const events = computed(() =>
   })
 );
 const select = (date) => {
-  return date.getDate() === currentDate.value.getDate() &&
+  return (
+    date.getDate() === currentDate.value.getDate() &&
     date.getMonth() === currentDate.value.getMonth() &&
-    date.getFullYear() === currentDate.value.getFullYear();
+    date.getFullYear() === currentDate.value.getFullYear()
+  );
 };
 const linkEventToDate = () => {
   calenderDays.value.forEach((item) => {
@@ -78,7 +115,7 @@ const linkEventToDate = () => {
         item.Date <= endDate &&
         props.selected_events.includes(event.id)
       ) {
-        item.event.push(event);
+        item.event = [...item.event, event];
       }
     });
   });
@@ -93,10 +130,13 @@ const current = (date) => {
   );
 };
 
-
-
 onMounted(() => {
-  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+  calenderDays.value = getCalenderDays(
+    view.value,
+    "current",
+    currentDate.value
+  );
+  linkEventToDate();
 });
 
 onBeforeUpdate(() => {
@@ -138,14 +178,35 @@ const getCurrentMonth = () => {
   linkEventToDate();
 };
 
-const currentMonth = () => {
-  calenderDays.value = getDaysOfMonth(view.value, "current", date);
+const getCurrentWeek = () => {
+  calenderDays.value = getCalenderDays(view.value, "current", new Date());
   currentDate.value = new Date();
+  linkEventToDate();
+};
+
+const changeViewToWeek = () => {
+  calenderDays.value = getCalenderDays(
+    view.value,
+    "current",
+    currentDate.value
+  );
+  linkEventToDate();
+};
+
+const changeViewToMonth = () => {
+  calenderDays.value = getCalenderDays(
+    view.value,
+    "current",
+    currentDate.value
+  );
   linkEventToDate();
 };
 
 const toggleModal = (date) => {
   emit("openModal", date);
+};
+const toggleHourModel = (dateAndTime) => {
+  emit("toggleHourModel", dateAndTime);
 };
 </script>
 
@@ -155,11 +216,11 @@ const toggleModal = (date) => {
 }
 
 .selected {
-  background-color: #C8FFE0;
+  background-color: #c8ffe0;
 }
 
 .current {
-  background-color: #85E6C5;
+  background-color: #85e6c5;
 }
 
 .prevnextmonth {
@@ -169,7 +230,7 @@ const toggleModal = (date) => {
 main {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  flex-grow: 1;
 }
 
 h1 {
@@ -223,5 +284,43 @@ h1 {
   padding: 0;
   font-size: 0.8rem;
   word-break: break-all;
+}
+.calender-week-container {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 1px solid rgb(176, 172, 172, 0.5);
+  /* bors */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.all-day {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 1px solid rgb(176, 172, 172, 0.5);
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.border {
+  display: grid;
+  grid-direction: column;
+  height: 100%;
+  width: 100%;
+  border: 0.5px gray solid;
+}
+.box {
+  min-height: 60px;
+  border: 0.5px gray solid;
+}
+.time {
+  display: grid;
+  grid-direction: column;
+}
+
+.calender-event {
+  border: 0.5px gray solid;
 }
 </style>
