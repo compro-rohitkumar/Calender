@@ -39,6 +39,7 @@ const handleClick = (prop) => {
   width: 20%;
   margin: 12px 10px;
   pading: 14px 10px;
+  min-width: 100px;
 }
 
 .RightBar_container p {

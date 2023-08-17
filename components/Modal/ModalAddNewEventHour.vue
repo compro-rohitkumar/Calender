@@ -37,11 +37,11 @@
         </div>
         <div class="input_container">
           <label class="event_label">Start Time</label>
-          <input type="time" v-model="eventStartTime" />
+          <input type="time" v-model="startTime" />
         </div>
         <div class="input_container">
           <label class="event_label">End Time</label>
-          <input type="time" v-model="eventEndTime" />
+          <input type="time"  v-model="endTime" />
         </div>
         <div class="input_container_button">
           <button
@@ -67,7 +67,7 @@
   const props = defineProps({
     dateAndTime: {
       type: Date,
-      default: () => new Date,
+      required: true,
     },
     users:{
       type:Array,
@@ -75,13 +75,20 @@
     },
 
   });
-  const data = new Date(props.dateAndTime);
-  const time = data.getHours();
-  const min = data.getMinutes();
-  const eventStartTime = ;
-  const eventEndTime = ref(`${time}:${min}`)
+  console.log(props.dateAndTime);
+  const data = (props.dateAndTime);
+  let hour = data.getHours();
+  let min = data.getMinutes();
   let day = data.getDate();
   let month = data.getMonth() + 1;
+  if(hour<10){
+    hour = "0"+hour;
+  }
+  if(min<10){
+    min = '0'+min;
+  }
+  const startTime = ref(`${hour}:${min}`);
+  const endTime = ref(`${hour}:${min}`);
   
   if (day < 10) {
     day = "0" + day;

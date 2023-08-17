@@ -1,6 +1,7 @@
 <template>
   <h1>Compro Calender</h1>
   <ModalAddNewEvent  :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
+  <ModalAddNewEventHour  :dateAndTime="date" :users="users" @closeModal="closeHourModal" v-if="modalHour" />
   <div class="root-container">
     <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" @toggleHourModel="toggleHourModel"/>
     <!-- calenderRightbar -->
@@ -83,16 +84,16 @@ const toggleModal = (dateOfClick) => {
 
 const toggleHourModel = (dateOfClick) => {
 
-  date.value = dateOfClick;
+  date.value = (dateOfClick);
+  console.log(date.value);
   window.scrollTo(0, 0);
-  modal.value = true;
+  modalHour.value = true;
 };
 
 const color = ["#F87171", "#FBBF24", "#34D399", "#60A5FA"];
 
 
 const closeHourModal = (prop =null) => {
-  console.log(prop);
   if (prop === null) {
     
     modalHour.value = false;

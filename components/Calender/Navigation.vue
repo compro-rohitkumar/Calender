@@ -82,7 +82,6 @@ const toggleModal = () => {
   
   width: 100%;
   display: flex;
-  display: row;
   justify-content: space-between;
   align-items: center;
 }
@@ -91,11 +90,11 @@ const toggleModal = () => {
 
 .navigation_bar div {
   display: flex;
-  justify-content: left;
   align-items: center;
 }
 .left{
   width:40%;
+  justify-self: left;
 }
 
 .navigation_bar button {
@@ -136,13 +135,19 @@ const toggleModal = () => {
   color:black !important;
 }
 .middle{
+  position: relative;
+  left:-6%;
   display: flex;
-  justify-self: left;
+  justify-self: middle;
 }
-@media(max-width: 900px){
+
+
+
+@media(max-width: 957px){
   .left h2{
     display: none;
   }
+  
 }
 
 </style>

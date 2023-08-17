@@ -230,6 +230,7 @@ main {
   display: flex;
   flex-direction: column;
   width: 80%;
+  min-width: 600px;
 }
 
 h1 {
