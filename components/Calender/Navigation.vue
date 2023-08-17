@@ -1,12 +1,12 @@
 <template>
   <div class="navigation_bar">
-    <div>
+    <div class="left">
       <button @click="CurrentFunction">Today</button>
       <button @click="previousFunction">Prev</button>
       <button @click="nextFunction">Next</button>
       <h2>{{ monthAndYear }}</h2>
     </div>
-    <div>
+    <div class="middle">
       <button
         @click="changeView('month')"
         :class="{ selected: props.view === 'month' }"
@@ -79,16 +79,27 @@ const toggleModal = () => {
 
 <style scoped>
 .navigation_bar {
+  
+  width: 100%;
   display: flex;
   display: row;
   justify-content: space-between;
   align-items: center;
 }
+
+
+
 .navigation_bar div {
   display: flex;
-  display: row;
+  justify-content: left;
+  align-items: center;
 }
+.left{
+  width:40%;
+}
+
 .navigation_bar button {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border: none;
   outline: none;
   background-color: transparent;
@@ -105,8 +116,9 @@ const toggleModal = () => {
 }
 
 .navigation_bar button:hover {
-  background-color: black;
-  color: white;
+  background-color: #C8FFE0;
+  opacity: 0.6;
+  color: black;
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -123,4 +135,14 @@ const toggleModal = () => {
 .selected:hover {
   color:black !important;
 }
+.middle{
+  display: flex;
+  justify-self: left;
+}
+@media(max-width: 900px){
+  .left h2{
+    display: none;
+  }
+}
+
 </style>

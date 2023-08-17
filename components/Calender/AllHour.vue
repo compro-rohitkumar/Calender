@@ -31,8 +31,10 @@
 
 <style scoped>
     .scroll {
-       height: 640px;
+       height: 50vh;
        overflow-y: scroll;
+       border-bottom:0.5px gray solid ;
+       
     }
     .container {
         display: grid;
@@ -40,12 +42,12 @@
         text-align: center;
         align-items: center;
         border: 0.5px gray solid;
+        min-height: 30px;
     }
     .time{
         text-align: center;
         /* background-color: #000; */
         color: black !important;
-        padding: 20px;
         border: 0.5px gray solid;
     }
     .cell{

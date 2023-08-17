@@ -1,4 +1,5 @@
 <template>
+  <h1>Compro Calender</h1>
   <ModalAddNewEvent  :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
     <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" @toggleHourModel="toggleHourModel"/>
@@ -145,5 +146,13 @@ const removeEvent = (eventID) => {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  overflow-y: hidden;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1{
+  margin-left: 12px;
+  padding-left: 12px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: xx-large;
 }
 </style>

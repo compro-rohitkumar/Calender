@@ -36,6 +36,7 @@ const handleClick = (prop) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 20%;
   margin: 12px 10px;
   pading: 14px 10px;
 }

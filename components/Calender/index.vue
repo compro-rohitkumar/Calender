@@ -1,6 +1,5 @@
 <template>
   <main>
-    <h1>Compro Calender</h1>
     <Navigation
       :date="currentDate"
       @current="getCurrentMonth"
@@ -13,7 +12,7 @@
       :view="view"
       :key="view"
     />
-    <div v-if="view === 'week'">
+    <div v-if="view === 'week'" class="weekCalender">
       <WeekCalender :calenderDays="calenderDays" />
       <AllDay :calenderDays="calenderDays" @toggleModal="toggleModal"/>
       <AllHour :calenderDays="calenderDays" @addEvent="toggleHourModel" />
@@ -230,7 +229,7 @@ const toggleHourModel = (dateAndTime) => {
 main {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  width: 80%;
 }
 
 h1 {
@@ -322,5 +321,8 @@ h1 {
 
 .calender-event {
   border: 0.5px gray solid;
+}
+.week_calender{
+  height: 60vh;
 }
 </style>

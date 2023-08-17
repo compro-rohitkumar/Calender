@@ -110,6 +110,7 @@ const handleCancel = () => {
 .form {
   width: 100%;
   height: 32rem;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .backdrop {
@@ -170,8 +171,8 @@ const handleCancel = () => {
 .button_container button:hover {
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  background: black;
-  color: white;
+  background: #C8FFE0;
+  color: black;
 }
 
 .line {
@@ -239,8 +240,7 @@ select {
 .input_container_button button:hover {
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  background: black;
-  color: white;
+  background: #C8FFE0;
 }
 
 .select {

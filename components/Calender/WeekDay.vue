@@ -27,5 +27,6 @@
         border: 1px solid rgb(176, 172, 172);
         grid-column: span 1;
         align-self: center;
+        word-break: break-all;
     }
 </style>
