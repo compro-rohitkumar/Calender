@@ -1,7 +1,7 @@
 <template>
-  <ModalAddNewEvent :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
+  <ModalAddNewEvent  :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
   <div class="root-container">
-    <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" />
+    <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" @toggleHourModel="toggleHourModel"/>
     <!-- calenderRightbar -->
     <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
   </div>
@@ -9,6 +9,7 @@
 
 <script setup>
 const modal = ref(false);
+const modalHour = ref(false);
 const date = ref(null);
 const userCreatedEvent = ref([]);
 const update_component = ref(false);
@@ -78,11 +79,43 @@ const toggleModal = (dateOfClick) => {
   window.scrollTo(0, 0);
   modal.value = true;
 };
+
+const toggleHourModel = (dateOfClick) => {
+
+  date.value = dateOfClick;
+  window.scrollTo(0, 0);
+  modal.value = true;
+};
+
 const color = ["#F87171", "#FBBF24", "#34D399", "#60A5FA"];
+
+
+const closeHourModal = (prop =null) => {
+  console.log(prop);
+  if (prop === null) {
+    
+    modalHour.value = false;
+    
+    return;
+  }
+  userCreatedEvent.value = [...userCreatedEvent.value, {
+    what: prop.what,
+    eventUser: prop.eventUser,
+    id: prop.eventType,
+    backgroundColor: color[prop.eventType],
+    startDate: prop.startDate,
+    endDate: prop.endDate,
+    startTime: prop.startTime,
+    endTime: prop.endTime,
+  }]
+  modalHour.value = false;
+}
+
 
 const closeModal = (prop = null) => {
   if (prop === null) {
     modal.value = false;
+    
     return;
   }
   userCreatedEvent.value = [...userCreatedEvent.value, {
@@ -93,9 +126,8 @@ const closeModal = (prop = null) => {
     startDate: prop.startDate,
     endDate: prop.endDate,
   }]
-
-  console.log(userCreatedEvent.value);
   modal.value = false;
+  
 };
 
 const addEvent = (prop) => {
@@ -108,9 +140,10 @@ const removeEvent = (eventID) => {
 
 <style scoped>
 .root-container {
+  margin: 14px 12px;
+  padding: 16px 12px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 6rem;
 }
 </style>

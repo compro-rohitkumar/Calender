@@ -74,7 +74,6 @@ export function getMonthNameAndYear(month, year) {
 }
 
 export function getWeekNameAndDate(datesInWeek) {
-  console.log(datesInWeek);
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const startDate = datesInWeek.getDate();
 
@@ -92,8 +91,8 @@ export function getDatesForCurrentWeek(currentDate, calenderNavigation = "curren
   const startOfWeek = new Date(today); // Copy current date
   const endOfWeek = new Date(today); // Copy current date
 
-  startOfWeek.setDate(today.getDate() - currentDay + 1); // Set to Monday of current week
-  endOfWeek.setDate(today.getDate() + (7 - currentDay)); // Set to Sunday of current week
+  startOfWeek.setDate(today.getDate() - currentDay ); // Set to Monday of current week
+  endOfWeek.setDate(today.getDate() + (7 - currentDay-1)); // Set to Sunday of current week
 
   const datesInWeek = [];
   for (let d = startOfWeek; d <= endOfWeek; d.setDate(d.getDate() + 1)) {

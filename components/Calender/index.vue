@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1>Calender</h1>
+    <h1>Compro Calender</h1>
     <Navigation
       :date="currentDate"
       @current="getCurrentMonth"
@@ -14,35 +14,11 @@
       :key="view"
     />
     <div v-if="view === 'week'">
-      
-     <div class="calender-week-container">
-      <div class="time">
-        
-      </div>
-      <div v-for="day in calenderDays" :key="day">
-        <p>{{ getWeekNameAndDate(day.Date) }}</p>
-        
-      </div>
-     </div>
-      <div class="all-day">
-        <div>
-          <p>all day</p>
-        </div>
-        <div v-for="day in calenderDays" :key="day">
-          <div
-            v-for="event in day.event"
-            :key="event.name"
-            class="calender-event"
-            :style="{ backgroundColor: event.color }"
-          >
-            <p>{{ `${event.eventUser} : ${event.name}` }}</p>
-          </div>
-        </div>
-      </div>
-
-
+      <WeekCalender :calenderDays="calenderDays" />
+      <AllDay :calenderDays="calenderDays" @toggleModal="toggleModal"/>
+      <AllHour :calenderDays="calenderDays" @addEvent="toggleHourModel" />
     </div>
-    <div v-if="view === 'month' ">
+    <div v-if="view === 'month'">
       <WeekDay />
       <div class="calender-container">
         <div
@@ -79,8 +55,8 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["openModal"]);
-const view = ref("week");
+const emit = defineEmits(["openModal", "toggleHourModel"]);
+const view = ref("month");
 
 const props = defineProps({
   all_events: {
@@ -93,19 +69,19 @@ const props = defineProps({
   },
 });
 
-
-
 const currentDate = ref(new Date());
 const calenderDays = ref(null);
 
 const changeView = (viewValue) => {
   view.value = viewValue;
-  if(viewValue === 'week'){
-    calenderDays.value = changeViewToWeek()
-  }else{
-    calenderDays.value = changeViewToMonth()
+  if (viewValue === "week") {
+    changeViewToWeek();
+  } else {
+    changeViewToMonth();
   }
 };
+
+
 
 const events = computed(() =>
   props.all_events.map((item) => {
@@ -126,7 +102,7 @@ const select = (date) => {
     date.getFullYear() === currentDate.value.getFullYear()
   );
 };
-const linkEventToDate = () => { 
+const linkEventToDate = () => {
   calenderDays.value.forEach((item) => {
     item.event = [];
     events.value.forEach((event) => {
@@ -139,7 +115,7 @@ const linkEventToDate = () => {
         item.Date <= endDate &&
         props.selected_events.includes(event.id)
       ) {
-        item.event.push(event);
+        item.event = [...item.event, event];
       }
     });
   });
@@ -163,7 +139,9 @@ onMounted(() => {
   linkEventToDate();
 });
 
-
+onBeforeUpdate(() => {
+  linkEventToDate();
+});
 
 const PrevMonth = () => {
   calenderDays.value = getCalenderDays(view.value, "prev", currentDate.value);
@@ -206,20 +184,29 @@ const getCurrentWeek = () => {
   linkEventToDate();
 };
 
-const changeViewToWeek = () =>{
-  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+const changeViewToWeek = () => {
+  calenderDays.value = getCalenderDays(
+    view.value,
+    "current",
+    currentDate.value
+  );
   linkEventToDate();
-}
+};
 
-const changeViewToMonth = () =>{
-  calenderDays.value = getCalenderDays(view.value, "current", currentDate.value);
+const changeViewToMonth = () => {
+  calenderDays.value = getCalenderDays(
+    view.value,
+    "current",
+    currentDate.value
+  );
   linkEventToDate();
-}
-
-
+};
 
 const toggleModal = (date) => {
   emit("openModal", date);
+};
+const toggleHourModel = (dateAndTime) => {
+  emit("toggleHourModel", dateAndTime);
 };
 </script>
 
@@ -243,7 +230,7 @@ const toggleModal = (date) => {
 main {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  flex-grow: 1;
 }
 
 h1 {
@@ -298,15 +285,42 @@ h1 {
   font-size: 0.8rem;
   word-break: break-all;
 }
-.calender-week-container{
+.calender-week-container {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   border: 1px solid rgb(176, 172, 172, 0.5);
+  /* bors */
   justify-content: center;
   align-items: center;
   text-align: center;
 }
-.calender-week-container div{
-  border-left: 0.5px gray solid;
+
+.all-day {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 1px solid rgb(176, 172, 172, 0.5);
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.border {
+  display: grid;
+  grid-direction: column;
+  height: 100%;
+  width: 100%;
+  border: 0.5px gray solid;
+}
+.box {
+  min-height: 60px;
+  border: 0.5px gray solid;
+}
+.time {
+  display: grid;
+  grid-direction: column;
+}
+
+.calender-event {
+  border: 0.5px gray solid;
 }
 </style>

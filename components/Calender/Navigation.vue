@@ -19,8 +19,6 @@
       >
         Week
       </button>
-      <button>List</button>
-      <button>TimeLine</button>
     </div>
     <div>
       <button @click="toggleModal">Add Event</button>
@@ -121,5 +119,8 @@ const toggleModal = () => {
 }
 .selected {
   background-color: #C8FFE0 !important;
+}
+.selected:hover {
+  color:black !important;
 }
 </style>
