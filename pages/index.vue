@@ -3,7 +3,7 @@
   <ModalAddNewEvent  :date="date" :users="users" @closeModal="closeModal" v-if="modal" />
   <ModalAddNewEventHour  :dateAndTime="date" :users="users" @closeModal="closeHourModal" v-if="modalHour" />
   <div class="root-container">
-    <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :selected_events="selected_events" @toggleHourModel="toggleHourModel"/>
+    <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :event_hour="userCreatedEventHour"  :selected_events="selected_events" @toggleModel="toggleModal" @toggleHourModel="toggleHourModel"/>
     <!-- calenderRightbar -->
     <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
   </div>
@@ -14,7 +14,7 @@ const modal = ref(false);
 const modalHour = ref(false);
 const date = ref(null);
 const userCreatedEvent = ref([]);
-const update_component = ref(false);
+const userCreatedEventHour = ref([]); 
 const users = ref([
   {
     name: "Nirmal Kumar",
@@ -85,7 +85,6 @@ const toggleModal = (dateOfClick) => {
 const toggleHourModel = (dateOfClick) => {
 
   date.value = (dateOfClick);
-  console.log(date.value);
   window.scrollTo(0, 0);
   modalHour.value = true;
 };
@@ -95,18 +94,16 @@ const color = ["#F87171", "#FBBF24", "#34D399", "#60A5FA"];
 
 const closeHourModal = (prop =null) => {
   if (prop === null) {
-    
     modalHour.value = false;
-    
     return;
   }
-  userCreatedEvent.value = [...userCreatedEvent.value, {
+  userCreatedEventHour.value = [...userCreatedEventHour.value, {
     what: prop.what,
     eventUser: prop.eventUser,
     id: prop.eventType,
     backgroundColor: color[prop.eventType],
-    startDate: prop.startDate,
-    endDate: prop.endDate,
+    startDate: new Date(prop.startDate),
+    endDate: new Date(prop.endDate),
     startTime: prop.startTime,
     endTime: prop.endTime,
   }]
@@ -117,7 +114,6 @@ const closeHourModal = (prop =null) => {
 const closeModal = (prop = null) => {
   if (prop === null) {
     modal.value = false;
-    
     return;
   }
   userCreatedEvent.value = [...userCreatedEvent.value, {

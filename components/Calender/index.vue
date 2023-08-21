@@ -15,7 +15,7 @@
     <div v-if="view === 'week'" class="weekCalender">
       <WeekCalender :calenderDays="calenderDays" />
       <AllDay :calenderDays="calenderDays" @toggleModal="toggleModal"/>
-      <AllHour :calenderDays="calenderDays" @addEvent="toggleHourModel" />
+      <AllHour :calenderDays="calenderDays" :event_hour="event_hour" @addEvent="toggleHourModel" />
     </div>
     <div v-if="view === 'month'">
       <WeekDay />
@@ -66,6 +66,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  event_hour:{
+    type: Array,
+    default: () => [],
+  }
 });
 
 const currentDate = ref(new Date());
@@ -118,7 +122,11 @@ const linkEventToDate = () => {
       }
     });
   });
+
 };
+
+
+
 const current = (date) => {
   const persentDate = new Date();
   persentDate.setHours(0, 0, 0, 0);

@@ -75,7 +75,6 @@
     },
 
   });
-  console.log(props.dateAndTime);
   const data = (props.dateAndTime);
   let hour = data.getHours();
   let min = data.getMinutes();
@@ -111,14 +110,22 @@
   };
   
   const handleSubmit = () => {
+    if(eventStartDate.value>eventEndDate.value){
+      alert("Start Date should be less than End Date");
+      return;
+    }
+    if(startTime.value>endTime.value){
+      alert("Start Time should be less than End Time");
+      return;
+    }
     const evenDetail = {
       eventUser: getUserName(eventUser.value, props.users),
       what: what.value,
       eventType: Number(eventType.value),
       startDate: eventStartDate.value,
       endDate: eventEndDate.value,
-      startTime: eventStartTime.value,
-      endTime: eventEndTime.value,
+      startTime: startTime.value,
+      endTime: endTime.value,
     };
     emit("closeModal", evenDetail);
   };

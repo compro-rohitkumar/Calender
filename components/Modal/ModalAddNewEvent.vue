@@ -92,6 +92,10 @@ const getUserName = (id, users) => {
 };
 
 const handleSubmit = () => {
+  if(eventStartDate.value>eventEndDate.value){
+    alert("Start Date should be less than End Date");
+    return;
+  }
   const evenDetail = {
     eventUser: getUserName(eventUser.value, props.users),
     what: what.value,
