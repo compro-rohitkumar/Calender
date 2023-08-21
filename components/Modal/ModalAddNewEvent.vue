@@ -6,7 +6,7 @@
       <div class="button_container">
         <button @click="handleCancel">Cancel</button>
       </div>
-      <h2 class="m-4 text-2xl">Create Event</h2>
+      <h1 class="m-4 text-2xl">Create Event</h1>
       <div class="input_container">
         <label class="event_label">Event Type</label>
         <select class="select" v-model="eventType">

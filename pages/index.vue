@@ -136,7 +136,7 @@ const removeEvent = (eventID) => {
 };
 </script>
 
-<style scoped>
+<style >
 .root-container {
   margin: 14px 12px;
   padding: 16px 12px;
