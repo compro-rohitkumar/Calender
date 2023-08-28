@@ -1,7 +1,8 @@
 <template>
   <div class="event">
     <input type="checkbox" @click="handleClick()" checked />
-    <img :src="image" alt="image" />
+    <img :src="fillImage" alt="image" v-if="checked"/>
+    <img :src="image" alt="image" v-else/>
     <p>{{ name }}</p>
   </div>
 </template>
@@ -14,6 +15,10 @@ const props = defineProps({
     required: true,
   },
   image: {
+    type: String,
+    required: true,
+  },
+  fillImage: {
     type: String,
     required: true,
   },

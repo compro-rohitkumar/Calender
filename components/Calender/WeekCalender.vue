@@ -32,6 +32,7 @@ const select = (date) => {
     .grid{
         display: grid;
         grid-template-columns: repeat(8, 1fr);
+        
         border: 0.5px gray solid;
         text-align: center;
     }

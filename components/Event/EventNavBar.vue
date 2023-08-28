@@ -7,6 +7,7 @@
         :key="item.id"
         :name="item.name"
         :image="item.image"
+        :fillImage="item.fillImage"
         :id="item.id"
         @click="handleClick"
       />

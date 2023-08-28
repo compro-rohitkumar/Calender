@@ -25,6 +25,7 @@
 
 <style scoped>
     .grid{
+        font-family: inherit;
         display: grid;
         grid-template-columns: repeat(8, 1fr);
         text-align: center;

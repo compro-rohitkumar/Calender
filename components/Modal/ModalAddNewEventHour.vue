@@ -73,8 +73,23 @@
       type:Array,
       default:()=>[]
     },
+    event:{
+      type:Object,
+      default:()=>{
+        return {
+          eventUser: "",
+          what: "",
+          eventType: 1,
+          startDate: "",
+          endDate: "",
+          startTime: "",
+          endTime: "",
+        }
+      }
+    }
 
   });
+  console.log(props.event);
   const data = (props.dateAndTime);
   let hour = data.getHours();
   let min = data.getMinutes();
@@ -95,12 +110,23 @@
   if (month < 10) {
     month = "0" + month;
   }
-  
+    
   const eventStartDate = ref(`${data.getFullYear()}-${month}-${day}`);
   const eventEndDate = ref(`${data.getFullYear()}-${month}-${day}`);
   const eventUser = ref("");
   const what = ref("");
   const eventType = ref("1");
+  
+  if(props.event.eventUser.length>0){
+    console.log("here");
+    const user = props.users.find((user) => user.id === Number(eventUser.value));
+    eventUser.value = user.id;
+    eventStartDate.value = `${data.getFullYear()}-${month}-${day}`;
+    eventEndDate.value = `${data.getFullYear()}-${month}-${day}`;
+    what.value = props.event.what;
+    eventType.value = props.event.eventType;
+  }
+
   
   const emit = defineEmits(["closeModal", "toggleModal"]);
   
@@ -135,6 +161,7 @@
   </script>
     
   <style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Alata&family=Anton&family=Barlow+Semi+Condensed:wght@400;500;600&family=Josefin+Sans:wght@300&family=Open+Sans:ital,wght@0,300;1,300&family=Roboto:wght@300&display=swap');
   .form {
     width: 100%;
     height: 32rem;

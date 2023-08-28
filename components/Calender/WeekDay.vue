@@ -19,14 +19,16 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        border: 1px solid rgb(176, 172, 172, 0.5);
+        border: 0.1px solid rgb(176, 172, 172, 0.6);
+
         border-bottom: none;
     }
     .grid div{
         text-align: center;
-        border: 1px solid rgb(176, 172, 172);
+        border: 0.1px solid rgb(176, 172, 172, 0.6);
         grid-column: span 1;
         align-self: center;
         word-break: break-all;
+        padding: 5px;
     }
 </style>
