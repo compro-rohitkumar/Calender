@@ -95,6 +95,7 @@
       required: true,
     },
   })
+  
   document.documentElement.style.setProperty('--primary-color', props.event.color);
   const format_date = (date) => {
     const d = new Date(date);
@@ -109,7 +110,6 @@
     emit("closeTaskModal");
   };
   const deleteEvent = () => {
-    console.log(props.event._id);
     emit("deleteEvent", props.event._id);
   }
   const editEvent = () => {

@@ -26,19 +26,7 @@
         
       </div> -->
       <CustomSelect :options="props.users" :eventUser="eventUser" :default="eventUser.name" class="select" @input="handleInput"/>
-      <!-- <select class="dropdown">
-          <option value="1" style="padding:89px">Holiday</option>
-          <option value="2" style="padding:89px">Birthday</option>
-          <option value="3" style="padding:89px">Leave</option>
-        </select> -->
-      <div class="input_container">
-        <label class="event_label">Event</label>
-        <select class="select" v-model="eventType">
-          <option value="1">Holiday</option>
-          <option value="2">Birthday</option>
-          <option value="3">Leave</option>
-        </select>
-      </div>
+      <customSelectevent :options="eventOption" :default="selectedOption" class="select" @input="handleEvent" />
       <div class="input_container">
         <label class="event_label">Start Date</label>
         <input type="date" v-model="eventStartDate" />
@@ -47,14 +35,6 @@
         <label class="event_label">End Date</label>
         <input type="date" v-model="eventEndDate" />
       </div>
-      <!-- <div class="input_container">
-        <label class="event_label"> User</label>
-        <select class="select" v-model="eventUser">
-          <option v-for="user in props.users" :key="user.id" :value="user.id">
-            {{ user.name }}
-          </option>
-        </select>
-      </div> -->
       <div class="input_container_button">
         <button
           type="submit"
@@ -119,6 +99,9 @@ const sendUser = computed(()=>{
     return user.name
   })
 })
+const eventOption =ref(["Holiday","Birthday","Leave"]);
+const selectedOption = ref(eventOption.value[0])
+
 
 const eventStartDate = ref(`${data.getFullYear()}-${month}-${day}`);
 const eventEndDate = ref(`${data.getFullYear()}-${month}-${day}`);
@@ -129,7 +112,6 @@ const eventType = ref("1");
 const eventDescription = ref("");
 const editEvent = ref(false);
 
-console.log(props.event);
 
 if(props.event !== null){
     editEvent.value = true;
@@ -138,9 +120,9 @@ if(props.event !== null){
     eventStartDate.value = buildDate(props.event.startDate);
     eventEndDate.value = buildDate(props.event.endDate);
     what.value = props.event.what;
-    // console.log(typeof props.event.id);
+    
+    selectedOption.value = eventOption.value[Number(props.event.id)-1];
     eventType.value = String(props.event.id);
-    console.log(eventType.value);
     eventDescription.value = props.event.eventDescription;
    
 }
@@ -148,11 +130,6 @@ if(props.event !== null){
 
 const emit = defineEmits(["closeModal", "toggleModal"]);
 
-const getUserName = (id, users) => {
-  console.log(id,users);
-  const user = users.find((user) => user.id === Number(id));
-  console.log(user);
-};
 
 const handleSubmit = () => {
   if(eventStartDate.value>eventEndDate.value){
@@ -168,7 +145,7 @@ const handleSubmit = () => {
     endDate: eventEndDate.value,
     eventDescription: eventDescription.value,
   };
-  console.log(evenDetail);
+ 
   if(editEvent.value){
     evenDetail._id = props.event._id;
   }
@@ -178,11 +155,16 @@ const handleCancel = () => {
   emit("closeModal");
 };
 const handleInput = (prop) => {
-  console.log(prop);
   eventUser.value = prop;
+  
 };
 
-
+const handleEvent = (prop) => {
+  const event = eventOption.value.findIndex((item) => item === prop);
+  eventType.value = String(event+1);
+  selectedOption.value = prop
+  
+};
 
 </script>
   
@@ -283,7 +265,7 @@ const handleInput = (prop) => {
   margin-left: 0px;
   /* left:-50px; */
   border: 4px;
-  height: 2rem;
+  height: 2.2rem;
   border-radius: 10px;
   margin-bottom: 1rem;
 }
@@ -291,18 +273,22 @@ const handleInput = (prop) => {
   width: 400px;
   background: transparent;
   color: rgb(64, 64, 64);
-  height: 100%;
+  height: 1.5rem;
   border: none;
   outline: none;
   box-shadow: none;
   letter-spacing: 0.1px;
   font-size: 1.2rem;
   font-family: "Roboto", sans-serif;
+  padding-left: 17px;
+
+  
 }
+
 .input span {
   position: absolute;
-  top: 0;
-  left: 3px;
+  top: -5px;
+  left: 16px;
   padding: 10px 0 10px;
   color: rgb(64, 64, 64);
   text-transform: uppercase;
@@ -383,46 +369,47 @@ const handleInput = (prop) => {
 
 .input_container {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 2fr 5fr;
   justify-content: left;
   align-items: center;
   width: 80%;
-  /* margin: 0 0.4rem; */
-
-  animation: slide-up 0.3s linear;
-  animation-delay: 0.4s;
-  animation-fill-mode: both;
+  margin-top:10px;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 1px;
 }
 
 .event_label {
   text-align: flex-start;
-  column-span: 2;
-  justify-self: right;
+  column-span: 1;
+  justify-self: left;
+  padding-left: 16px;
 }
 
 .input_container input,
 select {
   column-span: 3;
   margin: 0.6rem;
-  margin-left: 3rem;
+  margin-left: 2rem;
   border: 4px;
   height: 1rem;
   border-radius: 10px;
   padding: 0.5rem 1rem;
   align-self: flex-end;
-  width: 82%;
+  width: 80%;
   text-decoration: none;
+ 
 }
 
 .input_container_button {
+  font-family: 'Roboto', sans-serif;
   margin: 10px;
   margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: slide-up 0.3s linear;
+  /* animation: slide-up 0.3s linear;
   animation-delay: 0.4s;
-  animation-fill-mode: both;
+  animation-fill-mode: both; */
 }
 
 .input_container_button button {
@@ -442,7 +429,7 @@ select {
 .input_container_button button:hover {
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  background: #c8ffe0;
+  background: rgb(26, 115, 232);
 }
 
 .select {
@@ -535,6 +522,7 @@ select {
 .select{
   width:400px;
   margin-top:1rem;
+  margin-bottom: 1rem;;
   /* height: 2rem; */
 }
 </style>

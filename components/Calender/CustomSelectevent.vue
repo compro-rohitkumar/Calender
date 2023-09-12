@@ -8,7 +8,7 @@
           v-for="(option, i) of options"
           :key="i"
           @click="
-            selected = option.name;
+            selected = option;
             open = false;
             $emit('input', option);
           "
@@ -36,39 +36,39 @@
       default: 0,
     },
   });
+    const selected = ref(props.default);
 
-    const selected = ref(props.default?props.default:props.options[0]);
-
-    console.log(selected.value);
     const open = ref(false);
-    console.log(props.options)
 
   </script>
   
   <style scoped>
   .custom-select {
     position: relative;
-    width: 100%;
+    width: 80%;
     text-align: left;
     outline: none;
     height: 47px;
     line-height: 47px;
+    margin-top:1rem;
+    font-family: 'Roboto', sans-serif;
   }
   
   .custom-select .selected {
     background-color: white;
-    border-radius: 6px;
-    border: 1px solid #666666;
-    color: black;
+    border-bottom: 1px solid rgb(64, 64, 64);
+    color: rgb(64, 64, 64);
     padding-left: 1em;
     cursor: pointer;
     user-select: none;
-    
+    font-size:1.1rem;
+    letter-spacing: 1px;
+    margin-top:-1rem ;
   }
   
   .custom-select .selected.open {
-    border: 1px solid #ad8225;
-    border-radius: 6px 6px 0px 0px;
+    border-bottom: 1px solid rgb(26, 115, 232);;
+    /* border-radius: 6px 6px 0px 0px; */
   }
   
   .custom-select .selected:after {
@@ -83,28 +83,27 @@
   }
   
   .custom-select .items {
-    color: #fff;
     border-radius: 0px 0px 6px 6px;
     overflow: hidden;
-    border-right: 1px solid #ad8225;
-    border-left: 1px solid #ad8225;
-    border-bottom: 1px solid #ad8225;
+    border-right: 1px solid  rgb(26, 115, 232);
+    border-left: 1px solid rgb(26, 115, 232);
+    border-bottom: 1px solid rgb(26, 115, 232);
     position: absolute;
-    background-color: #0a0a0a;
+    background-color: white;
     left: 0;
     right: 0;
     z-index: 1;
   }
   
   .custom-select .items div {
-    color: #fff;
+    color: rgb(64, 64, 64);
     padding-left: 1em;
     cursor: pointer;
     user-select: none;
   }
   
   .custom-select .items div:hover {
-    background-color: #ad8225;
+    background-color: rgb(26, 115, 232);
   }
   
   .selectHide {

@@ -38,7 +38,6 @@ const getDayName = (day) => {
 };
 const day = ref(getDayName(date.value.getDay()))
 const events = ref(props.event.event)
-console.log(props.event.event)
 
 
 const extra_event = ref(props.event.extra_event)

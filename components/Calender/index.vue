@@ -19,6 +19,7 @@
         :calenderDays="calenderDays"
         :event_hour="event_hour"
         @addEvent="toggleHourModel"
+        @toggleTaskModal="toggleTaskModal"
       />
     </div>
     <div v-if="view === 'month'">
@@ -133,7 +134,6 @@ const linkEventToDate = () => {
   const heightRow = changeIntoNumber(heightOfRow)
   const heightInRem = changeIntoNumber(heightRow) / 16;
   const totalELemenent = Math.floor(heightInRem / 1.40) -3;
-  console.log(totalELemenent);
   calenderDays.value.forEach((item) => {
     item.event = [];
     item.date = item.Date;
@@ -175,7 +175,7 @@ onMounted(() => {
   row = calenderDays.value.length / 7;
   height = (window.innerHeight / 100) * 80;
   heightOfRow = height / row + "px";
-  console.log(heightOfRow);
+  
   document.documentElement.style.setProperty("--row", heightOfRow);
 });
 
@@ -252,8 +252,7 @@ const toggleModal = (date,e) => {
   if(e==='from-nevigetion') return emit("openModal", date);
   const target = e.target.parentElement.classList.contains("calender-event");
   const target2 = e.target.classList.contains("hover_text")||e.target.parentElement.classList.contains("hover_text");
-  console.log("hello")
-  console.log(target,target2);
+  
   if(target||target2) return;
   emit("openModal", date);
 };

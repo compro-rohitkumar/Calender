@@ -8,7 +8,7 @@
                 </div>
                 <div v-if=" j > 1" class="cell" @click="addEvent" :data-date="j-2" :data-time="i-1">
                     <div   :data-index="j" :data-hour="i-1">
-                        <p v-for="event in array[i-1][j-2]" :key="event.id" :style="{backgroundColor:event.backgroundColor}" class="event_para">{{ `${event.eventUser} : ${event.what}` }}</p>
+                        <p v-for="event in array[i-1][j-2]" :key="event.id" :style="{backgroundColor:event.backgroundColor}" class="event_para" @click="toggleTaskModal(event)">{{ `${event.eventUser} : ${event.what}` }}</p>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
 
 
 
-const emit = defineEmits(["addEvent"]);
+const emit = defineEmits(["addEvent",'toggleTaskModal']);
 const props = defineProps({
   calenderDays: {
     type: Array,
@@ -36,8 +36,12 @@ const props = defineProps({
 });
 const array = ref(Array(24).fill(null).map(() => Array(7).fill([])));
 const addEvent = (e) => {
+  if(e.target.classList.contains("event_para")){
+    return;
+  }
     let y= e.target;
     const date = props.calenderDays[y.getAttribute("data-date")].Date;
+    
     const hour = y.getAttribute("data-time");
     date.setHours(hour);
     date.setMinutes(0);
@@ -90,13 +94,17 @@ onMounted(() => {
     row.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     row.style.backgroundColor = "#c8ffe0";
 });
+
+const toggleTaskModal = (event) =>{
+    emit("toggleTaskModal",event);
+}
+
 </script>
 
 <style scoped>
 .scroll {
-  height: 50vh;
-  overflow-y: scroll;
-  /* border-bottom: 0.5px gray solid; */
+  /* overflow-y: scroll; */
+  border-bottom: 0.5px gray solid;
 }
 .container {
   display: flex;
@@ -124,5 +132,6 @@ onMounted(() => {
     margin-right:2px;
     border-radius: 5px;
     word-break: break-all;
+    cursor: pointer;
 }
 </style>

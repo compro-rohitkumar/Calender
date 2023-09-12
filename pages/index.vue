@@ -1,16 +1,16 @@
 <template>
   <ModalAddNewEvent  :date="date" :users="users" :event="event"  @closeModal="closeModal" v-if="modal" />
-  <ModalAddNewEventHour  :dateAndTime="date" :event="events" :users="users" @closeModal="closeHourModal" v-if="modalHour" />
+  <ModalAddNewEventHour  :dateAndTime="date"  :users="users" :event="event" @closeModal="closeHourModal" v-if="modalHour" />
   <TaskModal v-if="taskModal" :event="event" @closeTaskModal="toggleTaskModal" @deleteEvent="deleteEvent" @editEvent="editEvent"/>
   <AllEventModal v-if="showAllEvent" :event="event" @closeAllEventModal="toggleViewAllEvent" @showTask="showTask"/>
   <div class="root-container">
     <Calender @openModal="toggleModal" :all_events="userCreatedEvent" :event_hour="userCreatedEventHour"  :selected_events="selected_events" @toggleModel="toggleModal" @toggleHourModel="toggleHourModel" @toggleTaskModal="toggleTaskModal" @toggleViewAllEvent="toggleViewAllEvent"/>
-    <!-- calenderRightbar -->
     <EventNavBar :events="events" @addEvent="addEvent" @removeEvent="removeEvent" />
   </div>
 </template>
 
 <script setup>
+import db from '../server/db/index'
 import { uuid } from 'vue-uuid';
 const modal = ref(false);
 const modalHour = ref(false);
@@ -95,7 +95,6 @@ const toggleModal = (dateOfClick) => {
 };
 
 const toggleHourModel = (dateOfClick) => {
-
   date.value = (dateOfClick);
   window.scrollTo(0, 0);
   modalHour.value = true;
@@ -109,16 +108,35 @@ const closeHourModal = (prop =null) => {
     modalHour.value = false;
     return;
   }
+  if(prop._id){
+    const index = userCreatedEventHour.value.findIndex((item) => item._id === prop._id);
+    userCreatedEventHour.value[index] = {
+      _id: prop._id,
+      what: prop.what,
+      eventUser: prop.eventUser,
+      id: prop.eventType,
+      backgroundColor: color[prop.eventType],
+      startDate: new Date(prop.startDate),
+      endDate: new Date(prop.endDate),
+      startTime: prop.startTime,
+      endTime: prop.endTime,
+      eventDescription:prop.eventDescription
+    }
+    userCreatedEventHour.value = [...userCreatedEventHour.value];
+    modalHour.value = false;
+    return;
+  }
   userCreatedEventHour.value = [...userCreatedEventHour.value, {
-    _id: this.$uuid.v4(),
+    _id: getId(),
     what: prop.what,
-    eventUser: prop.eventuser,
+    eventUser: prop.eventUser,
     id: prop.eventType,
     backgroundColor: color[prop.eventType],
     startDate: new Date(prop.startDate),
     endDate: new Date(prop.endDate),
     startTime: prop.startTime,
     endTime: prop.endTime,
+    eventDescription:prop.eventDescription
   }]
   modalHour.value = false;
 }
@@ -131,7 +149,7 @@ const closeModal = (prop = null) => {
   }
   if(prop._id){
     const index = userCreatedEvent.value.findIndex((item) => item._id === prop._id);
-    console.log(index);
+    
     userCreatedEvent.value[index] = {
       _id: prop._id,
       what: prop.what,
@@ -142,7 +160,7 @@ const closeModal = (prop = null) => {
       endDate: new Date(prop.endDate),
       eventDescription: prop.eventDescription,
     }
-    console.log(userCreatedEvent.value[index]);
+    
     userCreatedEvent.value = [...userCreatedEvent.value];
     modal.value = false;
     return;
@@ -185,6 +203,7 @@ const toggleViewAllEvent = (prop=null) => {
 const deleteEvent = (prop) => {
   taskModal.value = false;
   userCreatedEvent.value = [...userCreatedEvent.value.filter((item) => item._id !== prop)]
+  userCreatedEventHour.value = [...userCreatedEventHour.value.filter((item) => item._id !== prop)]
 }
 const showTask = (prop) => {
   event.value = prop;
@@ -193,7 +212,15 @@ const showTask = (prop) => {
 }
 const editEvent = (prop) => {
   taskModal.value = false;
-  const index = userCreatedEvent.value.findIndex((item) => item._id === prop);
+  let index = userCreatedEvent.value.findIndex((item) => item._id === prop);
+  if(index === -1){
+    
+    index = userCreatedEventHour.value.findIndex((item) => item._id === prop);
+    const date = new Date(userCreatedEventHour.value[index].startDate);
+    event.value = userCreatedEventHour.value[index];
+    modalHour.value = true;
+    return;
+  }
   const date = new Date(userCreatedEvent.value[index].startDate);
   event.value = userCreatedEvent.value[index];
   modal.value = true;
